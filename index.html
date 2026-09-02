@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+    <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="description" content="Статическая демонстрация аналитического лендинга Market Note." />
+    <meta name="theme-color" content="#faf9f6" />
+    <title>Market Note — статическая демонстрация</title>
+    <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="wordmark" href="#top" aria-label="Market Note — на главную">MARKET NOTE</a>
+        <nav aria-label="Основная навигация">
+          <a href="#analytics">Обзоры</a>
+          <a href="#approach">Подход</a>
+        </nav>
+        <a class="underlined-link" href="#analytics">Демо-лента ↗</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero shell" id="top">
+        <div>
+          <p class="eyebrow">Независимая аналитика для трейдеров</p>
+          <h1>Сигналы рынка — спокойно и по делу</h1>
+          <p class="hero-copy">
+            Короткие обзоры индекса, валюты и сырья. Факты, контекст и сценарии — без лишних обещаний и новостного шума.
+          </p>
+        </div>
+        <aside class="latest">
+          <p class="eyebrow">Свежий обзор · 2 сентября</p>
+          <h2>Нефть удерживает диапазон, пока рынок оценивает баланс рисков</h2>
+          <a href="#analytics">Перейти к обзору <span aria-hidden="true">↘</span></a>
+        </aside>
+      </section>
+
+      <section class="demo-note" aria-label="Ограничения демонстрации">
+        <div class="shell">
+          <strong>Статическая демонстрация.</strong>
+          Автоматическая синхронизация с Telegram отключена; ниже показаны примеры публикаций.
+        </div>
+      </section>
+
+      <section class="feed shell" id="analytics" aria-labelledby="feed-title">
+        <aside class="feed-intro">
+          <p class="eyebrow">Архив публикаций</p>
+          <h2 id="feed-title">Последние обзоры</h2>
+          <p>В рабочей версии новые записи появляются автоматически после публикации в Telegram.</p>
+        </aside>
+
+        <div class="feed-content">
+          <div class="filters" role="group" aria-label="Фильтр публикаций">
+            <button type="button" class="is-active" data-filter="all" aria-pressed="true">Все</button>
+            <button type="button" data-filter="market" aria-pressed="false">Рынок</button>
+            <button type="button" data-filter="currency" aria-pressed="false">Валюта</button>
+            <button type="button" data-filter="commodity" aria-pressed="false">Сырьё</button>
+            <button type="button" data-filter="ideas" aria-pressed="false">Идеи</button>
+          </div>
+
+          <div class="posts" aria-live="polite">
+            <article class="post" data-category="commodity">
+              <div class="post-date">2 сентября<br />08:40 мск</div>
+              <div>
+                <p class="post-meta">Сырьё · Новый</p>
+                <h3>Нефть удерживает диапазон, пока рынок оценивает новый баланс рисков</h3>
+                <p>Brent остаётся выше ключевой зоны поддержки. Базовый сценарий — консолидация перед новым импульсом.</p>
+              </div>
+            </article>
+            <article class="post" data-category="market">
+              <div class="post-date">1 сентября<br />18:15 мск</div>
+              <div>
+                <p class="post-meta">Рынок</p>
+                <h3>Индекс Мосбиржи: импульс есть, подтверждения объёмом пока нет</h3>
+                <p>Для устойчивого движения рынку нужно расширение фронта роста; до этого работаем от уровней и не догоняем цену.</p>
+              </div>
+            </article>
+            <article class="post" data-category="currency">
+              <div class="post-date">1 сентября<br />11:20 мск</div>
+              <div>
+                <p class="post-meta">Валюта</p>
+                <h3>Рубль вошёл в зону, где краткосрочный риск становится асимметричным</h3>
+                <p>Волатильность снизилась, но календарь платежей и экспортные потоки могут быстро вернуть движение.</p>
+              </div>
+            </article>
+            <article class="post" data-category="ideas">
+              <div class="post-date">31 августа<br />19:05 мск</div>
+              <div>
+                <p class="post-meta">Идеи</p>
+                <h3>Три сценария на неделю: где искать подтверждение, а где лучше подождать</h3>
+                <p>В каждом сценарии — триггер входа, условие отмены и ближайшая зона фиксации.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="approach" id="approach">
+        <div class="shell approach-grid">
+          <div>
+            <p class="eyebrow">Редакционный подход</p>
+            <p class="muted">Обзор помогает подготовить план, но не заменяет собственную оценку риска.</p>
+          </div>
+          <div>
+            <h2>От события — к понятному сценарию</h2>
+            <ol>
+              <li><span>01</span><strong>Отбираем факты</strong><p>Оставляем события, способные изменить цену или ожидания участников.</p></li>
+              <li><span>02</span><strong>Проверяем реакцию</strong><p>Сопоставляем новость с графиком, ликвидностью и поведением активов.</p></li>
+              <li><span>03</span><strong>Фиксируем условия</strong><p>Определяем триггер, условие отмены и рабочий диапазон идеи.</p></li>
+            </ol>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="shell footer-inner">
+        <div><strong>MARKET NOTE</strong><span>Аналитика без шума.</span></div>
+        <p>Материалы носят информационный характер и не являются индивидуальной инвестиционной рекомендацией. © <span id="year">2026</span></p>
+      </div>
+    </footer>
+
+    <script src="./script.js" defer></script>
+  </body>
+</html>
