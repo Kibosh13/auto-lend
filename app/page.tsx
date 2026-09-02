@@ -1,119 +1,79 @@
-import { ArrowDown, ArrowUpRight, Radio } from 'lucide-react';
+import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
 import { MarketFeed } from './market-feed';
-
-const marketSnapshot = [
-  { ticker: 'IMOEX', value: '2 914,27', change: '+0,84%', positive: true },
-  { ticker: 'USD / RUB', value: '81,46', change: '−0,31%', positive: false },
-  { ticker: 'BRENT', value: '$76,18', change: '+1,12%', positive: true },
-  { ticker: 'GOLD', value: '$3 471', change: '+0,26%', positive: true },
-];
 
 export default function Home() {
   return (
     <main className="min-h-screen overflow-hidden bg-background text-foreground">
-      <header className="relative z-20 border-b border-border/80">
-        <div className="mx-auto flex h-20 max-w-[1440px] items-center justify-between px-5 md:px-10 lg:px-14">
-          <a href="#top" className="flex items-center gap-3" aria-label="Market Note — на главную">
-            <span className="grid size-9 place-items-center rounded-full border border-foreground font-mono text-[10px] font-bold tracking-[-0.08em]">
-              MN
-            </span>
-            <span className="text-sm font-semibold tracking-[0.18em]">MARKET NOTE</span>
+      <header className="relative z-20 border-b border-border">
+        <div className="mx-auto flex h-[72px] max-w-[1200px] items-center justify-between px-5 md:px-8">
+          <a href="#top" aria-label="Market Note — на главную">
+            <span className="text-[13px] font-semibold tracking-[0.2em]">MARKET NOTE</span>
           </a>
 
-          <nav className="hidden items-center gap-8 text-xs font-medium md:flex" aria-label="Основная навигация">
+          <nav className="hidden items-center gap-7 text-xs md:flex" aria-label="Основная навигация">
             <a className="nav-link" href="#analytics">Обзоры</a>
             <a className="nav-link" href="#approach">Подход</a>
-            <a className="nav-link" href="#about">Об авторе</a>
           </nav>
 
           <a
             href="#analytics"
-            className="inline-flex items-center gap-2 rounded-full border border-foreground px-4 py-2 text-xs font-medium transition-colors hover:bg-foreground hover:text-background"
+            className="inline-flex items-center gap-1.5 border-b border-foreground pb-1 text-xs font-medium"
           >
-            <span className="hidden sm:inline">Лента из</span> Telegram
-            <ArrowUpRight className="size-3.5" />
+            Telegram <ArrowUpRight className="size-3" />
           </a>
         </div>
       </header>
 
-      <section id="top" className="mx-auto max-w-[1440px] px-5 pb-14 pt-8 md:px-10 md:pb-20 md:pt-12 lg:px-14">
-        <div className="mb-10 flex items-center justify-between border-b border-border pb-4 font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground md:mb-14">
-          <span>Ежедневный аналитический обзор</span>
-          <span>02 / 09 / 2026</span>
-        </div>
-
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,1.45fr)_minmax(280px,0.55fr)] lg:gap-20">
+      <section id="top" className="mx-auto max-w-[1200px] px-5 py-14 md:px-8 md:py-20">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,1.35fr)_minmax(280px,0.65fr)] lg:gap-24">
           <div>
-            <div className="mb-7 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#c53e2d]">
-              <Radio className="size-3.5" />
-              Главный тезис дня
-            </div>
-            <h1 className="max-w-5xl font-serif text-[clamp(3.7rem,8.2vw,8.2rem)] leading-[0.84] tracking-[-0.065em]">
-              Рынок платит за терпение.
+            <p className="eyebrow">Независимая аналитика для трейдеров</p>
+            <h1 className="mt-6 max-w-3xl font-serif text-[clamp(3.15rem,6vw,5.75rem)] leading-[0.93] tracking-[-0.045em]">
+              Сигналы рынка — спокойно и по делу
             </h1>
-            <p className="mt-8 max-w-2xl text-base leading-7 text-muted-foreground md:ml-[22%] md:mt-10 md:text-lg md:leading-8">
-              Разбираем движение индекса, валюты и сырья без информационного шума — только сигналы, контекст и сценарии на следующую сессию.
+            <p className="mt-7 max-w-xl text-base leading-7 text-muted-foreground md:text-lg md:leading-8">
+              Короткие обзоры индекса, валюты и сырья. Факты, контекст и сценарии — без лишних обещаний и новостного шума.
             </p>
           </div>
 
           <aside className="self-end border-t border-foreground pt-5">
-            <div className="mb-8 flex items-center gap-2 text-xs text-muted-foreground">
-              <span className="size-1.5 animate-pulse rounded-full bg-[#d94a34]" />
-              Рынок открыт · обновлено 2 мин назад
-            </div>
-            <blockquote className="font-serif text-2xl leading-tight tracking-[-0.02em]">
-              «Не предсказываем точку. Готовимся к реакции рынка».
-            </blockquote>
-            <a href="#analytics" className="group mt-8 flex items-center justify-between border-t border-border py-4 text-sm font-medium">
-              Читать свежий обзор
-              <ArrowDown className="size-4 transition-transform group-hover:translate-y-1" />
+            <p className="eyebrow">Свежий обзор · 2 сентября</p>
+            <h2 className="mt-5 font-serif text-2xl leading-[1.12] tracking-[-0.02em] md:text-3xl">
+              Нефть удерживает диапазон, пока рынок оценивает баланс рисков
+            </h2>
+            <a href="#analytics" className="group mt-7 flex items-center justify-between border-t border-border py-4 text-sm font-medium">
+              Перейти к обзору
+              <ArrowDownRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
             </a>
           </aside>
         </div>
       </section>
 
-      <section className="border-y border-border bg-card" aria-label="Срез рынка">
-        <div className="mx-auto grid max-w-[1440px] grid-cols-2 px-5 md:grid-cols-4 md:px-10 lg:px-14">
-          {marketSnapshot.map((item, index) => (
-            <div
-              key={item.ticker}
-              className={`py-6 md:px-7 md:py-7 ${index % 2 === 0 ? 'border-r border-border pr-5' : 'pl-5'} ${index > 1 ? 'border-t border-border md:border-t-0' : ''} ${index > 0 ? 'md:border-l md:border-border' : ''}`}
-            >
-              <div className="flex items-center justify-between gap-3">
-                <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">{item.ticker}</p>
-                <span className={`font-mono text-[10px] ${item.positive ? 'text-[#18835c]' : 'text-[#c53e2d]'}`}>{item.change}</span>
-              </div>
-              <p className="mt-2 text-xl font-medium tracking-[-0.025em] md:text-2xl">{item.value}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
       <MarketFeed />
 
-      <section id="approach" className="border-t border-border bg-[#171715] text-[#f3f0e8]">
-        <div className="mx-auto max-w-[1440px] px-5 py-20 md:px-10 md:py-28 lg:px-14">
-          <div className="grid gap-12 lg:grid-cols-[0.7fr_1.3fr] lg:gap-20">
+      <section id="approach" className="border-t border-border bg-card/45">
+        <div className="mx-auto max-w-[1200px] px-5 py-16 md:px-8 md:py-20">
+          <div className="grid gap-12 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-20">
             <div>
-              <p className="eyebrow text-[#aaa69d]">Принцип работы</p>
-              <p className="mt-6 max-w-xs text-sm leading-6 text-[#aaa69d]">
-                Обзор помогает сформировать план, но не заменяет собственную оценку риска.
+              <p className="eyebrow">Редакционный подход</p>
+              <p className="mt-5 text-sm leading-6 text-muted-foreground">
+                Обзор помогает подготовить план, но не заменяет собственную оценку риска.
               </p>
             </div>
             <div>
-              <h2 className="max-w-4xl font-serif text-5xl leading-[0.96] tracking-[-0.045em] md:text-7xl">
-                Факты → контекст → торговый сценарий
+              <h2 className="max-w-2xl font-serif text-4xl leading-[1.02] tracking-[-0.035em] md:text-5xl">
+                От события — к понятному сценарию
               </h2>
-              <div className="mt-12 grid gap-px bg-[#3a3833] md:grid-cols-3">
+              <div className="mt-9 border-t border-foreground">
                 {[
-                  ['01', 'Отсекаем шум', 'Выбираем только события, которые способны изменить цену или ожидания участников.'],
-                  ['02', 'Проверяем тезис', 'Сопоставляем новость с графиком, ликвидностью и поведением ключевых активов.'],
-                  ['03', 'Готовим сценарии', 'Фиксируем триггер, уровень отмены и диапазон, в котором идея сохраняет смысл.'],
+                  ['01', 'Отбираем факты', 'Оставляем только события, способные изменить цену или ожидания участников.'],
+                  ['02', 'Проверяем реакцию', 'Сопоставляем новость с графиком, ликвидностью и поведением ключевых активов.'],
+                  ['03', 'Фиксируем условия', 'Определяем триггер, условие отмены и диапазон, в котором идея сохраняет смысл.'],
                 ].map(([number, title, text]) => (
-                  <article key={number} className="bg-[#171715] p-6 md:min-h-64 md:p-8">
-                    <span className="font-mono text-[10px] text-[#aaa69d]">{number}</span>
-                    <h3 className="mt-12 text-xl font-medium tracking-tight">{title}</h3>
-                    <p className="mt-4 text-sm leading-6 text-[#aaa69d]">{text}</p>
+                  <article key={number} className="grid gap-3 border-b border-border py-5 sm:grid-cols-[48px_180px_minmax(0,1fr)] sm:gap-6">
+                    <span className="font-mono text-[9px] text-muted-foreground">{number}</span>
+                    <h3 className="text-sm font-medium">{title}</h3>
+                    <p className="max-w-lg text-sm leading-6 text-muted-foreground">{text}</p>
                   </article>
                 ))}
               </div>
@@ -122,33 +82,35 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="about" className="border-b border-border">
-        <div className="mx-auto grid max-w-[1440px] gap-12 px-5 py-20 md:px-10 md:py-28 lg:grid-cols-[0.7fr_1.3fr] lg:gap-20 lg:px-14">
-          <p className="eyebrow">Об авторе</p>
-          <div>
-            <p className="max-w-4xl font-serif text-4xl leading-[1.05] tracking-[-0.035em] md:text-6xl">
+      <section id="about" className="border-t border-border">
+        <div className="mx-auto grid max-w-[1200px] gap-10 px-5 py-16 md:px-8 md:py-20 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-20">
+          <p className="eyebrow">О проекте</p>
+          <div className="grid gap-8 md:grid-cols-[1.1fr_0.9fr] md:gap-14">
+            <p className="font-serif text-3xl leading-[1.12] tracking-[-0.025em] md:text-4xl">
               Независимый взгляд на рынок для тех, кто принимает решения сам.
             </p>
-            <div className="mt-10 grid gap-6 border-t border-border pt-6 text-sm leading-7 text-muted-foreground md:grid-cols-2">
-              <p>Аналитика строится на реакции цены, структуре рынка и понятном управлении риском — без обещаний доходности и перегруженных терминов.</p>
-              <p>Все короткие заметки сначала выходят в Telegram, а затем автоматически собираются здесь в удобный архив для чтения и поиска.</p>
+            <div className="text-sm leading-6 text-muted-foreground">
+              <p>Аналитика строится на реакции цены, структуре рынка и управлении риском — без обещаний доходности.</p>
+              <p className="mt-4">Короткие заметки выходят в Telegram и автоматически собираются здесь в единый архив.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1440px] px-5 py-20 text-center md:px-10 md:py-28 lg:px-14">
-        <p className="eyebrow">Оставайтесь в контексте</p>
-        <h2 className="mx-auto mt-6 max-w-4xl font-serif text-5xl leading-[0.95] tracking-[-0.045em] md:text-7xl">
-          Один обзор. Один тезис. Никакого шума.
-        </h2>
-        <a href="#analytics" className="mt-10 inline-flex items-center gap-3 rounded-full bg-foreground px-6 py-3.5 text-sm font-medium text-background transition-transform hover:-translate-y-0.5">
-          Перейти к аналитике <ArrowUpRight className="size-4" />
-        </a>
+      <section className="border-t border-border">
+        <div className="mx-auto flex max-w-[1200px] flex-col gap-6 px-5 py-12 md:flex-row md:items-center md:justify-between md:px-8">
+          <div>
+            <p className="eyebrow">Новые обзоры</p>
+            <p className="mt-2 font-serif text-2xl tracking-[-0.02em]">Следите за обновлениями в Telegram</p>
+          </div>
+          <a href="#analytics" className="inline-flex w-fit items-center gap-2 border-b border-foreground pb-1 text-sm font-medium">
+            Перейти к ленте <ArrowUpRight className="size-3.5" />
+          </a>
+        </div>
       </section>
 
       <footer className="border-t border-border">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-7 px-5 py-8 text-xs text-muted-foreground md:flex-row md:items-end md:justify-between md:px-10 lg:px-14">
+        <div className="mx-auto flex max-w-[1200px] flex-col gap-7 px-5 py-7 text-xs text-muted-foreground md:flex-row md:items-end md:justify-between md:px-8">
           <div>
             <p className="text-sm font-semibold tracking-[0.18em] text-foreground">MARKET NOTE</p>
             <p className="mt-2">Аналитика без шума.</p>

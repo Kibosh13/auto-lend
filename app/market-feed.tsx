@@ -12,13 +12,11 @@ type MarketPost = {
   date: string;
   time: string;
   url: string;
-  image?: string;
 };
 
 type FeedResponse = {
   posts: MarketPost[];
   source: 'telegram' | 'demo';
-  channel?: string;
   fetchedAt: string;
 };
 
@@ -68,10 +66,11 @@ export function MarketFeed() {
   const [activeFilter, setActiveFilter] = useState('Все');
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
   const [source, setSource] = useState<'telegram' | 'demo'>('demo');
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [updatedAt, setUpdatedAt] = useState<Date | null>(null);
 
   const loadPosts = useCallback(async () => {
-    setStatus((current) => (current === 'ready' ? 'ready' : 'loading'));
+    setIsRefreshing(true);
     try {
       const response = await fetch('/api/telegram', { cache: 'no-store' });
       if (!response.ok) throw new Error('Feed unavailable');
@@ -82,13 +81,20 @@ export function MarketFeed() {
       setStatus('ready');
     } catch {
       setStatus('error');
+    } finally {
+      setIsRefreshing(false);
     }
   }, []);
 
   useEffect(() => {
-    loadPosts();
+    const initialLoad = window.setTimeout(() => {
+      void loadPosts();
+    }, 0);
     const timer = window.setInterval(loadPosts, 120_000);
-    return () => window.clearInterval(timer);
+    return () => {
+      window.clearTimeout(initialLoad);
+      window.clearInterval(timer);
+    };
   }, [loadPosts]);
 
   const visiblePosts = useMemo(
@@ -98,83 +104,86 @@ export function MarketFeed() {
 
   return (
     <section id="analytics" className="border-t border-border" aria-labelledby="feed-title">
-      <div className="mx-auto max-w-[1440px] px-5 py-16 md:px-10 md:py-24 lg:px-14">
-        <div className="grid gap-10 lg:grid-cols-[0.65fr_1.35fr] lg:gap-20">
+      <div className="mx-auto max-w-[1200px] px-5 py-16 md:px-8 md:py-20">
+        <div className="grid gap-12 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-20">
           <div>
-            <p className="eyebrow">Аналитическая лента</p>
-            <h2 id="feed-title" className="mt-5 max-w-md font-serif text-5xl leading-[0.94] tracking-[-0.045em] md:text-7xl">
-              Последние наблюдения
+            <p className="eyebrow">Архив публикаций</p>
+            <h2 id="feed-title" className="mt-5 font-serif text-4xl leading-none tracking-[-0.035em] md:text-5xl">
+              Последние обзоры
             </h2>
-            <p className="mt-6 max-w-sm text-sm leading-6 text-muted-foreground md:text-base md:leading-7">
-              Публикации автоматически появляются здесь после выхода в Telegram. Лента проверяет обновления каждые две минуты.
+            <p className="mt-5 text-sm leading-6 text-muted-foreground">
+              Новые записи автоматически появляются после публикации в Telegram.
             </p>
-
-            <div className="mt-8 flex items-center gap-3 text-xs text-muted-foreground" aria-live="polite">
-              <span className={`size-2 rounded-full ${source === 'telegram' ? 'bg-[#18835c]' : 'bg-[#c88d2e]'}`} />
-              {source === 'telegram' ? 'Синхронизация активна' : 'Показан демонстрационный поток'}
-              {updatedAt && <span>· {updatedAt.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}</span>}
-            </div>
+            <p className="mt-7 border-t border-border pt-4 text-xs leading-5 text-muted-foreground" aria-live="polite">
+              {source === 'telegram' ? 'Синхронизация с каналом активна' : 'Демонстрационная лента · канал ещё не подключён'}
+              {updatedAt && <><br />Проверено в {updatedAt.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}</>}
+            </p>
           </div>
 
           <div>
-            <div className="mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-border pb-5">
-              <div className="flex flex-wrap gap-2" aria-label="Фильтр публикаций">
+            <div className="mb-2 flex flex-wrap items-center justify-between gap-4 border-b border-border pb-4">
+              <div className="flex flex-wrap gap-x-5 gap-y-2" aria-label="Фильтр публикаций">
                 {filters.map((filter) => (
                   <Button
                     key={filter}
                     type="button"
-                    variant={activeFilter === filter ? 'default' : 'outline'}
+                    variant="ghost"
                     size="sm"
                     onClick={() => setActiveFilter(filter)}
                     aria-pressed={activeFilter === filter}
-                    className="rounded-full px-4"
+                    className={`h-auto rounded-none px-0 py-1 text-xs hover:bg-transparent ${activeFilter === filter ? 'text-foreground underline decoration-1 underline-offset-4' : 'text-muted-foreground'}`}
                   >
                     {filter}
                   </Button>
                 ))}
               </div>
-              <Button type="button" variant="ghost" size="sm" onClick={loadPosts} className="text-muted-foreground">
-                <RefreshCw className={`size-3.5 ${status === 'loading' ? 'animate-spin' : ''}`} />
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => { void loadPosts(); }}
+                disabled={isRefreshing}
+                className="h-auto rounded-none px-0 py-1 text-xs text-muted-foreground hover:bg-transparent"
+              >
+                <RefreshCw className={`size-3 ${isRefreshing ? 'animate-spin' : ''}`} />
                 Обновить
               </Button>
             </div>
 
             {status === 'error' && (
-              <div className="mb-6 flex items-center gap-3 border border-border bg-card p-4 text-sm text-muted-foreground" role="status">
+              <output className="my-5 flex items-center gap-3 border border-border bg-card p-4 text-sm text-muted-foreground">
                 <WifiOff className="size-4" />
                 Telegram временно недоступен. Показываем сохранённые публикации.
-              </div>
+              </output>
             )}
 
             <div>
               {visiblePosts.map((post, index) => (
-                <article key={post.id} className="group grid gap-5 border-b border-border py-8 first:pt-0 md:grid-cols-[88px_1fr_auto] md:gap-7">
-                  <div className="font-mono text-[10px] uppercase leading-5 tracking-[0.12em] text-muted-foreground">
+                <article key={post.id} className="group grid gap-4 border-b border-border py-7 md:grid-cols-[96px_minmax(0,1fr)_24px] md:gap-6">
+                  <div className="font-mono text-[9px] uppercase leading-5 tracking-[0.11em] text-muted-foreground">
                     {post.date}<br />{post.time} мск
                   </div>
-                  <div className="max-w-3xl">
-                    <div className="mb-3 flex items-center gap-3">
-                      <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#c53e2d]">{post.category}</span>
-                      {index === 0 && <span className="rounded-full border border-[#c53e2d]/40 px-2 py-0.5 text-[9px] uppercase tracking-[0.12em] text-[#c53e2d]">Свежий</span>}
+                  <div className="max-w-2xl">
+                    <div className="mb-2 flex items-center gap-3 text-[9px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+                      <span>{post.category}</span>
+                      {index === 0 && <span className="text-[#8f342a]">Новый</span>}
                     </div>
-                    <h3 className="font-serif text-3xl leading-[1.06] tracking-[-0.025em] md:text-[2.55rem]">
+                    <h3 className="font-serif text-[1.75rem] leading-[1.08] tracking-[-0.02em] md:text-[2rem]">
                       {post.title}
                     </h3>
-                    <p className="mt-4 max-w-2xl text-sm leading-6 text-muted-foreground md:text-[15px] md:leading-7">{post.text}</p>
+                    <p className="mt-3 text-sm leading-6 text-muted-foreground">{post.text}</p>
                     {post.url !== '#' && (
-                      <a href={post.url} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] underline decoration-border underline-offset-4 hover:decoration-foreground">
-                        Открыть в Telegram <ArrowUpRight className="size-3.5" />
+                      <a href={post.url} target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center gap-1.5 text-xs underline decoration-border underline-offset-4 hover:decoration-foreground">
+                        Открыть в Telegram <ArrowUpRight className="size-3" />
                       </a>
                     )}
                   </div>
-                  <span className="hidden size-11 place-items-center rounded-full border border-border transition-colors group-hover:border-foreground md:grid" aria-hidden="true">
-                    <ArrowUpRight className="size-4" />
-                  </span>
+                  <ArrowUpRight className="mt-1 hidden size-3.5 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 md:block" aria-hidden="true" />
                 </article>
               ))}
 
               {!visiblePosts.length && (
-                <div className="py-16 text-center text-sm text-muted-foreground">В этой рубрике пока нет публикаций.</div>
+                <div className="py-14 text-center text-sm text-muted-foreground">В этой рубрике пока нет публикаций.</div>
               )}
             </div>
           </div>

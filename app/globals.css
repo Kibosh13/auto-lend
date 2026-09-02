@@ -34,25 +34,25 @@
 }
 
 :root {
-  --background: #f3f0e8;
-  --foreground: #171715;
-  --card: #ebe7dd;
-  --card-foreground: #171715;
-  --popover: #f8f6f0;
-  --popover-foreground: #171715;
-  --primary: #171715;
-  --primary-foreground: #f3f0e8;
-  --secondary: #e5e0d4;
-  --secondary-foreground: #171715;
-  --muted: #e5e0d4;
-  --muted-foreground: #6d6a62;
-  --accent: #d94a34;
+  --background: #faf9f6;
+  --foreground: #191918;
+  --card: #f3f1ec;
+  --card-foreground: #191918;
+  --popover: #ffffff;
+  --popover-foreground: #191918;
+  --primary: #191918;
+  --primary-foreground: #faf9f6;
+  --secondary: #f0eee8;
+  --secondary-foreground: #191918;
+  --muted: #f0eee8;
+  --muted-foreground: #72706a;
+  --accent: #a63d2f;
   --accent-foreground: #fff;
-  --destructive: #c53e2d;
-  --border: #cbc6ba;
-  --input: #cbc6ba;
-  --ring: #6d6a62;
-  --radius: 0.5rem;
+  --destructive: #a63d2f;
+  --border: #dedbd3;
+  --input: #dedbd3;
+  --ring: #72706a;
+  --radius: 0.35rem;
 }
 
 .dark {
@@ -80,7 +80,7 @@
   * { @apply border-border outline-ring/50; }
   html { @apply scroll-smooth font-sans; }
   body { @apply bg-background text-foreground antialiased; }
-  ::selection { background: #d94a34; color: white; }
+  ::selection { background: #191918; color: white; }
 }
 
 @layer components {
