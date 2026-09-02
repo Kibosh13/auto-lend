@@ -1,13 +1,14 @@
 import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
+import Image from 'next/image';
 import { MarketFeed } from './market-feed';
 
 export default function Home() {
   return (
     <main className="min-h-screen overflow-hidden bg-background text-foreground">
       <header className="relative z-20 border-b border-border">
-        <div className="mx-auto flex h-[72px] max-w-[1200px] items-center justify-between px-5 md:px-8">
-          <a href="#top" aria-label="Market Note — на главную">
-            <span className="text-[13px] font-semibold tracking-[0.2em]">MARKET NOTE</span>
+        <div className="mx-auto flex h-24 max-w-[1200px] items-center justify-between px-5 md:px-8">
+          <a className="brand-logo-crop" href="#top" aria-label="Natural Gas RE:PORT — на главную">
+            <Image src="/brand-logo-source.jpg" alt="natural gas RE:PORT" width="1280" height="668" priority />
           </a>
 
           <nav className="hidden items-center gap-7 text-xs md:flex" aria-label="Основная навигация">
@@ -111,8 +112,10 @@ export default function Home() {
 
       <footer className="border-t border-border">
         <div className="mx-auto flex max-w-[1200px] flex-col gap-7 px-5 py-7 text-xs text-muted-foreground md:flex-row md:items-end md:justify-between md:px-8">
-          <div>
-            <p className="text-sm font-semibold tracking-[0.18em] text-foreground">MARKET NOTE</p>
+          <div className="footer-brand">
+            <a className="brand-logo-crop" href="#top" aria-label="Natural Gas RE:PORT — на главную">
+              <Image src="/brand-logo-source.jpg" alt="natural gas RE:PORT" width="1280" height="668" />
+            </a>
             <p className="mt-2">Аналитика без шума.</p>
           </div>
           <p className="max-w-xl leading-5 md:text-right">

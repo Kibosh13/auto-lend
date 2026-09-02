@@ -20,8 +20,9 @@ a { color: inherit; text-decoration: none; }
 button { font: inherit; }
 .shell { width: min(100% - 40px, 1136px); margin-inline: auto; }
 .site-header { border-bottom: 1px solid var(--line); }
-.header-inner { height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
-.wordmark { font-size: 13px; font-weight: 700; letter-spacing: .2em; }
+.header-inner { height: 96px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+.brand-logo-crop { position: relative; display: block; width: 86px; height: 80px; flex: none; overflow: hidden; }
+.brand-logo-crop img { position: absolute; top: -22px; left: -76px; width: 235px; max-width: none; height: auto; mix-blend-mode: multiply; }
 nav { display: flex; gap: 28px; font: 12px Georgia, serif; color: var(--muted); }
 nav a:hover, nav a:focus-visible { color: var(--ink); }
 .underlined-link { padding-bottom: 4px; border-bottom: 1px solid; font: 12px Georgia, serif; }
@@ -59,7 +60,6 @@ h1 { max-width: 760px; margin-top: 22px; font-size: clamp(50px, 6vw, 88px); line
 .approach li p { margin: 0; color: var(--muted); line-height: 1.65; }
 footer { border-top: 1px solid var(--line); }
 .footer-inner { display: flex; justify-content: space-between; align-items: end; gap: 40px; padding-block: 28px; color: var(--muted); font-size: 11px; }
-.footer-inner strong { display: block; color: var(--ink); font-size: 12px; letter-spacing: .18em; }
 .footer-inner span { display: block; margin-top: 7px; }
 .footer-inner p { max-width: 580px; margin: 0; line-height: 1.6; text-align: right; }
 

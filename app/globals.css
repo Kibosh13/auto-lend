@@ -88,6 +88,29 @@
     @apply font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground;
   }
 
+  .brand-logo-crop {
+    position: relative;
+    display: block;
+    width: 86px;
+    height: 80px;
+    flex: none;
+    overflow: hidden;
+  }
+
+  .brand-logo-crop img {
+    position: absolute;
+    top: -22px;
+    left: -76px;
+    width: 235px;
+    max-width: none;
+    height: auto;
+    mix-blend-mode: multiply;
+  }
+
+  .footer-brand .brand-logo-crop {
+    margin-left: -2px;
+  }
+
   .nav-link {
     @apply relative py-2 text-muted-foreground transition-colors hover:text-foreground;
   }
