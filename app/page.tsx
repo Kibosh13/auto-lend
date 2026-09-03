@@ -14,6 +14,7 @@ export default function Home() {
           <nav className="hidden items-center gap-7 text-xs md:flex" aria-label="Основная навигация">
             <a className="nav-link" href="#analytics">Обзоры</a>
             <a className="nav-link" href="#approach">Подход</a>
+            <a className="nav-link" href="#about">О нас</a>
           </nav>
 
           <a
@@ -28,7 +29,7 @@ export default function Home() {
       <section id="top" className="mx-auto max-w-[1200px] px-5 py-14 md:px-8 md:py-20">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1.35fr)_minmax(280px,0.65fr)] lg:gap-24">
           <div>
-            <p className="eyebrow">Независимая аналитика для трейдеров</p>
+            <p className="eyebrow">Независимая аналитика для энерготрейдеров</p>
             <h1 className="mt-6 max-w-3xl font-serif text-[clamp(3.15rem,6vw,5.75rem)] leading-[0.93] tracking-[-0.045em]">
               Сигналы рынка — спокойно и по делу
             </h1>
