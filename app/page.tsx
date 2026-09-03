@@ -14,7 +14,7 @@ export default function Home() {
           <nav className="hidden items-center gap-7 text-xs md:flex" aria-label="Основная навигация">
             <a className="nav-link" href="#analytics">Обзоры</a>
             <a className="nav-link" href="#approach">Подход</a>
-            <a className="nav-link" href="#about">О нас</a>
+            <a className="nav-link" href="#contacts">Контакты</a>
           </nav>
 
           <a
@@ -84,17 +84,14 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="about" className="border-t border-border">
+      <section id="contacts" className="border-t border-border">
         <div className="mx-auto grid max-w-[1200px] gap-10 px-5 py-16 md:px-8 md:py-20 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-20">
-          <p className="eyebrow">О проекте</p>
-          <div className="grid gap-8 md:grid-cols-[1.1fr_0.9fr] md:gap-14">
-            <p className="font-serif text-3xl leading-[1.12] tracking-[-0.025em] md:text-4xl">
-              Независимый взгляд на рынок для тех, кто принимает решения сам.
-            </p>
-            <div className="text-sm leading-6 text-muted-foreground">
-              <p>Аналитика строится на реакции цены, структуре рынка и управлении риском — без обещаний доходности.</p>
-              <p className="mt-4">Короткие заметки выходят в Telegram и автоматически собираются здесь в единый архив.</p>
-            </div>
+          <p className="eyebrow">Контакты</p>
+          <div>
+            <p className="font-serif text-3xl leading-[1.12] tracking-[-0.025em] md:text-4xl">Связаться с редакцией</p>
+            <a className="mt-7 inline-block border-b border-foreground pb-1 text-base" href="mailto:davidabelmane@gmail.com">
+              davidabelmane@gmail.com
+            </a>
           </div>
         </div>
       </section>
