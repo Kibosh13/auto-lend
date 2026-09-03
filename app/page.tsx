@@ -8,7 +8,7 @@ export default function Home() {
       <header className="relative z-20 border-b border-border">
         <div className="mx-auto flex h-24 max-w-[1200px] items-center justify-between px-5 md:px-8">
           <a className="brand-logo-crop" href="#top" aria-label="Natural Gas RE:PORT — на главную">
-            <Image src="/brand-logo-source.jpg" alt="natural gas RE:PORT" width="1280" height="668" priority />
+            <Image src="/brand-logo.png" alt="natural gas RE:PORT" width="1965" height="800" priority />
           </a>
 
           <nav className="hidden items-center gap-7 text-xs md:flex" aria-label="Основная навигация">
@@ -112,7 +112,7 @@ export default function Home() {
         <div className="mx-auto flex max-w-[1200px] flex-col gap-7 px-5 py-7 text-xs text-muted-foreground md:flex-row md:items-end md:justify-between md:px-8">
           <div className="footer-brand">
             <a className="brand-logo-crop" href="#top" aria-label="Natural Gas RE:PORT — на главную">
-              <Image src="/brand-logo-source.jpg" alt="natural gas RE:PORT" width="1280" height="668" />
+              <Image src="/brand-logo.png" alt="natural gas RE:PORT" width="1965" height="800" />
             </a>
             <p className="mt-2">Аналитика без шума.</p>
           </div>

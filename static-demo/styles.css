@@ -21,8 +21,8 @@ button { font: inherit; }
 .shell { width: min(100% - 40px, 1136px); margin-inline: auto; }
 .site-header { border-bottom: 1px solid var(--line); }
 .header-inner { height: 96px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
-.brand-logo-crop { position: relative; display: block; width: 86px; height: 80px; flex: none; overflow: hidden; }
-.brand-logo-crop img { position: absolute; top: -22px; left: -76px; width: 235px; max-width: none; height: auto; mix-blend-mode: multiply; }
+.brand-logo-crop { display: flex; width: 150px; height: 62px; flex: none; align-items: center; }
+.brand-logo-crop img { width: 150px; max-width: 100%; height: auto; }
 nav { display: flex; gap: 28px; font: 12px Georgia, serif; color: var(--muted); }
 nav a:hover, nav a:focus-visible { color: var(--ink); }
 .underlined-link { padding-bottom: 4px; border-bottom: 1px solid; font: 12px Georgia, serif; }
