@@ -15,20 +15,20 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.SITE_URL ?? 'http://localhost:3001'),
   title: {
-    default: 'Market Note — аналитика для энерготрейдеров',
-    template: '%s — Market Note',
+    default: 'Natural Gas RE:PORT — аналитика для энерготрейдеров',
+    template: '%s — Natural Gas RE:PORT',
   },
   description: 'Ежедневные обзоры рынка, сигналы и сценарии из Telegram — в удобном редакционном формате.',
   openGraph: {
     type: 'website',
     locale: 'ru_RU',
-    title: 'Market Note — аналитика для энерготрейдеров',
+    title: 'Natural Gas RE:PORT — аналитика для энерготрейдеров',
     description: 'Ежедневные обзоры рынка, сигналы и сценарии из Telegram — без информационного шума.',
-    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'Market Note — аналитика без шума' }],
+    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'Natural Gas RE:PORT — аналитика для энерготрейдеров' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Market Note — аналитика для энерготрейдеров',
+    title: 'Natural Gas RE:PORT — аналитика для энерготрейдеров',
     description: 'Ежедневные обзоры рынка, сигналы и сценарии из Telegram — без информационного шума.',
     images: ['/og.png'],
   },
