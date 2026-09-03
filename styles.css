@@ -58,6 +58,11 @@ h1 { max-width: 760px; margin-top: 22px; font-size: clamp(50px, 6vw, 88px); line
 .approach li { display: grid; grid-template-columns: 48px 180px minmax(0, 1fr); gap: 20px; padding-block: 20px; border-bottom: 1px solid var(--line); font-size: 14px; }
 .approach li span { color: var(--muted); font: 9px ui-monospace, monospace; }
 .approach li p { margin: 0; color: var(--muted); line-height: 1.65; }
+.about { border-top: 1px solid var(--line); }
+.about-grid { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 80px; padding-block: 72px; }
+.about-copy { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(260px, .9fr); gap: 56px; align-items: start; }
+.about h2 { max-width: 650px; font-size: 40px; line-height: 1.08; letter-spacing: -.03em; }
+.about-copy p { max-width: 520px; margin: 0; color: var(--muted); font-size: 14px; line-height: 1.75; }
 footer { border-top: 1px solid var(--line); }
 .footer-inner { display: flex; justify-content: space-between; align-items: end; gap: 40px; padding-block: 28px; color: var(--muted); font-size: 11px; }
 .footer-inner span { display: block; margin-top: 7px; }
@@ -66,12 +71,12 @@ footer { border-top: 1px solid var(--line); }
 @media (max-width: 760px) {
   .shell { width: min(100% - 40px, 1136px); }
   nav { display: none; }
-  .hero, .feed, .approach-grid { grid-template-columns: 1fr; gap: 48px; }
+  .hero, .feed, .approach-grid, .about-grid, .about-copy { grid-template-columns: 1fr; gap: 48px; }
   .hero { padding-block: 56px; }
   h1 { font-size: clamp(48px, 15vw, 68px); }
   .hero-copy { font-size: 17px; line-height: 1.65; }
-  .feed, .approach-grid { padding-block: 58px; }
-  .feed-intro h2, .approach h2 { font-size: 42px; }
+  .feed, .approach-grid, .about-grid { padding-block: 58px; }
+  .feed-intro h2, .approach h2, .about h2 { font-size: 42px; }
   .post { grid-template-columns: 1fr; gap: 10px; }
   .post h3 { font-size: 29px; }
   .approach li { grid-template-columns: 34px 1fr; }
