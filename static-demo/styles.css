@@ -30,6 +30,9 @@ button { font: inherit; }
 .social-icons { display: flex; align-items: center; gap: 14px; padding-left: 24px; border-left: 1px solid var(--line); color: var(--muted); }
 .social-icon { display: inline-flex; width: 20px; height: 20px; align-items: center; justify-content: center; }
 .social-icon svg { width: 20px; height: 20px; }
+.social-icon-investing img { width: 20px; height: 20px; border-radius: 2px; }
+.social-icon-pulse { position: relative; overflow: hidden; }
+.social-icon-pulse img { position: absolute; top: -1.9px; left: -4.8px; width: 28.2px; max-width: none; height: auto; mix-blend-mode: multiply; opacity: .55; }
 @media (hover: hover) {
   .brand-logo-crop:hover img { filter: grayscale(0); }
 }
