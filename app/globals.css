@@ -105,7 +105,6 @@
     width: 235px;
     max-width: none;
     height: auto;
-    mix-blend-mode: multiply;
     filter: grayscale(1);
     transition: filter 220ms ease;
   }

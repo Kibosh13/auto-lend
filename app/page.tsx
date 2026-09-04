@@ -10,7 +10,7 @@ export default function Home() {
         <div className="mx-auto flex h-24 max-w-[1200px] items-center justify-between px-5 md:px-8">
           <div className="brand-lockup">
             <a className="brand-logo-crop" href="#top" aria-label="Natural Gas RE:PORT — на главную">
-              <Image src="/brand-logo-slash.jpg" alt="natural gas RE:PORT" width="1280" height="668" priority />
+              <Image src="/brand-logo-transparent.png" alt="natural gas RE:PORT" width="1280" height="668" priority />
             </a>
             <SocialIcons />
           </div>
@@ -110,7 +110,7 @@ export default function Home() {
         <div className="footer-inner mx-auto max-w-[1200px] px-5 md:px-8">
           <div className="footer-brand brand-lockup">
             <a className="brand-logo-crop" href="#top" aria-label="Natural Gas RE:PORT — на главную">
-              <Image src="/brand-logo-slash.jpg" alt="natural gas RE:PORT" width="1280" height="668" />
+              <Image src="/brand-logo-transparent.png" alt="natural gas RE:PORT" width="1280" height="668" />
             </a>
             <SocialIcons />
           </div>
