@@ -1,11 +1,11 @@
-import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import Image from 'next/image';
-import { MarketFeed } from './market-feed';
+import { FeedProvider, LatestReview, MarketFeed } from './market-feed';
 import { SocialIcons, SOCIAL_LINKS } from './social-icons';
 
 export default function Home() {
   return (
-    <main className="min-h-screen overflow-hidden bg-background text-foreground">
+    <FeedProvider><main className="min-h-screen overflow-hidden bg-background text-foreground">
       <header className="relative z-20 border-b border-border">
         <div className="mx-auto flex h-24 max-w-[1200px] items-center justify-between px-5 md:px-8">
           <div className="brand-lockup">
@@ -45,16 +45,7 @@ export default function Home() {
             </p>
           </div>
 
-          <aside className="self-end border-t border-foreground pt-5">
-            <p className="eyebrow">Свежий обзор · 2 сентября</p>
-            <h2 className="mt-5 font-serif text-2xl leading-[1.12] tracking-[-0.02em] md:text-3xl">
-              Нефть удерживает диапазон, пока рынок оценивает баланс рисков
-            </h2>
-            <a href="#analytics" className="group mt-7 flex items-center justify-between border-t border-border py-4 text-sm font-medium">
-              Перейти к обзору
-              <ArrowDownRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
-            </a>
-          </aside>
+          <LatestReview />
         </div>
       </section>
 
@@ -128,6 +119,6 @@ export default function Home() {
           </p>
         </div>
       </footer>
-    </main>
+    </main></FeedProvider>
   );
 }

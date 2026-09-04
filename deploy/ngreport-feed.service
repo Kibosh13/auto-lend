@@ -1,0 +1,27 @@
+[Unit]
+Description=NG Re:port Telegram ingestion and media
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=ngreport
+Group=ngreport
+WorkingDirectory=/opt/ngreport/current
+EnvironmentFile=/etc/ngreport.env
+Environment=NODE_ENV=production
+Environment=DATA_DIR=/var/lib/ngreport
+Environment=FEED_PORT=3101
+Environment=PUBLIC_ORIGIN=https://ngreport.ru
+ExecStart=/usr/bin/node server/main.mjs
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/ngreport
+UMask=0077
+MemoryMax=220M
+
+[Install]
+WantedBy=multi-user.target

@@ -26,6 +26,12 @@
 *.sqlite
 *.sqlite3
 *.db
+*.db-wal
+*.db-shm
+*.sqlite-wal
+*.sqlite-shm
+/data/
+*.tsbuildinfo
 *.log
 *.tar.gz
 *.zip

@@ -13,7 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.SITE_URL ?? 'http://localhost:3001'),
+  metadataBase: new URL(process.env.SITE_URL || 'https://ngreport.ru'),
+  alternates: { canonical: 'https://ngreport.ru/' },
   title: {
     default: 'Natural Gas RE:PORT — аналитика для энерготрейдеров',
     template: '%s — Natural Gas RE:PORT',

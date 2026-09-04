@@ -8,6 +8,10 @@
   "scripts": {
     "dev": "vinext dev",
     "build": "vinext build",
+    "build:node": "DEPLOY_TARGET=node vinext build",
+    "start:node": "node dist/standalone/server.js",
+    "test:feed": "node --test server/feed.test.mjs",
+    "start:feed": "node server/main.mjs",
     "start": "wrangler dev --config dist/server/wrangler.json",
     "lint": "oxlint",
     "format": "oxfmt"

@@ -1,0 +1,24 @@
+[Unit]
+Description=NG Re:port website
+After=network.target ngreport-feed.service
+
+[Service]
+User=ngreport
+Group=ngreport
+WorkingDirectory=/opt/ngreport/current/web
+Environment=NODE_ENV=production
+Environment=HOST=127.0.0.1
+Environment=PORT=3100
+Environment=SITE_URL=https://ngreport.ru
+Environment=FEED_API_URL=http://127.0.0.1:3101/api/posts
+ExecStart=/usr/bin/node server.js
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+MemoryMax=350M
+
+[Install]
+WantedBy=multi-user.target

@@ -8,7 +8,7 @@ export const SOCIAL_LINKS = {
 
 export function SocialIcons() {
   return (
-    <div className="social-icons" role="group" aria-label="Социальные сети издания">
+    <nav className="social-icons" aria-label="Социальные сети издания">
       <a className="social-link" href={SOCIAL_LINKS.pulse} target="_blank" rel="noopener noreferrer" aria-label="Пульс — открыть в новой вкладке" title="Пульс">
         <span className="social-icon social-icon-pulse" aria-hidden="true">
           <Image src="/pulse-icon-source.jpg" alt="" width="1126" height="1012" />
@@ -26,6 +26,6 @@ export function SocialIcons() {
           <Image src="/investing-icon-source.jpg" alt="" width="512" height="512" />
         </span>
       </a>
-    </div>
+    </nav>
   );
 }
