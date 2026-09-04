@@ -48,7 +48,7 @@ export function FeedProvider({ children }: { children: ReactNode }) {
       } catch { setStatus('error'); }
     };
     void refresh();
-    const timer = window.setInterval(refresh, 60000);
+    const timer = window.setInterval(refresh, 15000);
     return () => window.clearInterval(timer);
   }, []);
   return <FeedContext.Provider value={{ ...feed, status, refreshing, load }}>{children}</FeedContext.Provider>;
