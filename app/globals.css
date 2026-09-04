@@ -89,18 +89,40 @@
   }
 
   .brand-logo-crop {
-    display: flex;
-    width: 150px;
-    height: 62px;
+    position: relative;
+    display: block;
+    width: 86px;
+    height: 80px;
     flex: none;
-    align-items: center;
+    overflow: hidden;
   }
 
   .brand-logo-crop img {
-    position: static;
-    width: 150px;
-    max-width: 100%;
+    /* Crop the supplied artwork without changing its original pixels. */
+    position: absolute;
+    top: -22px;
+    left: -76px;
+    width: 235px;
+    max-width: none;
     height: auto;
+    mix-blend-mode: multiply;
+    filter: grayscale(1);
+    transition: filter 220ms ease;
+  }
+
+  .brand-logo-crop:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 4px;
+  }
+
+  .brand-logo-crop:focus-visible img {
+    filter: grayscale(0);
+  }
+
+  @media (hover: hover) {
+    .brand-logo-crop:hover img {
+      filter: grayscale(0);
+    }
   }
 
   .footer-brand .brand-logo-crop {
