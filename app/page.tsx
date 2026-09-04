@@ -1,15 +1,19 @@
 import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
 import Image from 'next/image';
 import { MarketFeed } from './market-feed';
+import { SocialIcons } from './social-icons';
 
 export default function Home() {
   return (
     <main className="min-h-screen overflow-hidden bg-background text-foreground">
       <header className="relative z-20 border-b border-border">
         <div className="mx-auto flex h-24 max-w-[1200px] items-center justify-between px-5 md:px-8">
-          <a className="brand-logo-crop" href="#top" aria-label="Natural Gas RE:PORT — на главную">
-            <Image src="/brand-logo-slash.jpg" alt="natural gas RE:PORT" width="1280" height="668" priority />
-          </a>
+          <div className="brand-lockup">
+            <a className="brand-logo-crop" href="#top" aria-label="Natural Gas RE:PORT — на главную">
+              <Image src="/brand-logo-slash.jpg" alt="natural gas RE:PORT" width="1280" height="668" priority />
+            </a>
+            <SocialIcons />
+          </div>
 
           <nav className="hidden items-center gap-7 text-xs md:flex" aria-label="Основная навигация">
             <a className="nav-link" href="#analytics">Обзоры</a>
@@ -19,7 +23,7 @@ export default function Home() {
 
           <a
             href="#analytics"
-            className="inline-flex items-center gap-1.5 border-b border-foreground pb-1 text-xs font-medium"
+            className="hidden items-center gap-1.5 border-b border-foreground pb-1 text-xs font-medium sm:inline-flex"
           >
             Telegram <ArrowUpRight className="size-3" />
           </a>
@@ -30,11 +34,11 @@ export default function Home() {
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1.35fr)_minmax(280px,0.65fr)] lg:gap-24">
           <div>
             <p className="eyebrow">Независимая аналитика для энерготрейдеров</p>
-            <h1 className="mt-6 max-w-3xl font-serif text-[clamp(3.15rem,6vw,5.75rem)] leading-[0.93] tracking-[-0.045em]">
-              Сигналы рынка — спокойно и по делу
+            <h1 className="mt-6 max-w-3xl font-serif text-[clamp(2.25rem,5.1vw,4.75rem)] leading-[1.02] tracking-[-0.04em]">
+              Сигналы отрасли, которые конвертируются в торговый результат.
             </h1>
             <p className="mt-7 max-w-xl text-base leading-7 text-muted-foreground md:text-lg md:leading-8">
-              Короткие обзоры индекса, валюты и сырья. Факты, контекст и сценарии — без лишних обещаний и новостного шума.
+              Короткие обзоры на американский и европейский природный газ, а также на нефть марки Brent. Факты, контекст и прогнозы — без лишнего новостного шума.
             </p>
           </div>
 
@@ -58,13 +62,13 @@ export default function Home() {
           <div className="grid gap-12 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-20">
             <div>
               <p className="eyebrow">Редакционный подход</p>
-              <p className="mt-5 text-sm leading-6 text-muted-foreground">
-                Обзор помогает подготовить план, но не заменяет собственную оценку риска.
-              </p>
             </div>
             <div>
-              <h2 className="max-w-2xl font-serif text-4xl leading-[1.02] tracking-[-0.035em] md:text-5xl">
-                От события — к понятному сценарию
+              <p className="max-w-2xl text-base leading-7 text-muted-foreground md:text-lg md:leading-8">
+                Обзоры нашего информационно-аналитического издания помогают сделать один из сложнейших рыночных инструментов прозрачнее и яснее, а также подготовить план и собственную оценку риска.
+              </p>
+              <h2 className="mt-7 max-w-2xl font-serif text-4xl leading-[1.08] tracking-[-0.035em] md:text-5xl">
+                От события — к понятной оценке и сценарию действия.
               </h2>
               <div className="mt-9 border-t border-foreground">
                 {[
@@ -88,10 +92,10 @@ export default function Home() {
         <div className="mx-auto grid max-w-[1200px] gap-10 px-5 py-16 md:px-8 md:py-20 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-20">
           <p className="eyebrow">Контакты</p>
           <div>
-            <p className="font-serif text-3xl leading-[1.12] tracking-[-0.025em] md:text-4xl">Связаться с редакцией</p>
-            <a className="mt-7 inline-block border-b border-foreground pb-1 text-base" href="mailto:davidabelmane@gmail.com">
-              davidabelmane@gmail.com
-            </a>
+            <p className="max-w-2xl font-serif text-2xl leading-[1.4] tracking-[-0.02em] md:text-3xl">Давид Абельман — специалист по нефтегазовому рынку, трейдер и редактор издания NG / Re:port.</p>
+            <p className="mt-7 text-base">
+              E-mail: <a className="inline-block border-b border-foreground pb-1" href="mailto:davidabelmane@gmail.com">davidabelmane@gmail.com</a>
+            </p>
           </div>
         </div>
       </section>
@@ -109,15 +113,15 @@ export default function Home() {
       </section>
 
       <footer className="border-t border-border">
-        <div className="mx-auto flex max-w-[1200px] flex-col gap-7 px-5 py-7 text-xs text-muted-foreground md:flex-row md:items-end md:justify-between md:px-8">
-          <div className="footer-brand">
+        <div className="footer-inner mx-auto max-w-[1200px] px-5 md:px-8">
+          <div className="footer-brand brand-lockup">
             <a className="brand-logo-crop" href="#top" aria-label="Natural Gas RE:PORT — на главную">
               <Image src="/brand-logo-slash.jpg" alt="natural gas RE:PORT" width="1280" height="668" />
             </a>
-            <p className="mt-2">Аналитика без шума.</p>
+            <SocialIcons />
           </div>
-          <p className="max-w-xl leading-5 md:text-right">
-            Материалы носят информационный характер и не являются индивидуальной инвестиционной рекомендацией. © 2026
+          <p className="footer-legal">
+            Материалы носят информационный характер и не являются индивидуальной инвестиционной рекомендацией. ©&nbsp;2026
           </p>
         </div>
       </footer>
