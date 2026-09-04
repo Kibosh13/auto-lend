@@ -1,7 +1,7 @@
 import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
 import Image from 'next/image';
 import { MarketFeed } from './market-feed';
-import { SocialIcons } from './social-icons';
+import { SocialIcons, SOCIAL_LINKS } from './social-icons';
 
 export default function Home() {
   return (
@@ -22,7 +22,10 @@ export default function Home() {
           </nav>
 
           <a
-            href="#analytics"
+            href={SOCIAL_LINKS.telegram}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Telegram — открыть в новой вкладке"
             className="hidden items-center gap-1.5 border-b border-foreground pb-1 text-xs font-medium sm:inline-flex"
           >
             Telegram <ArrowUpRight className="size-3" />
@@ -106,8 +109,8 @@ export default function Home() {
             <p className="eyebrow">Новые обзоры</p>
             <p className="mt-2 font-serif text-2xl tracking-[-0.02em]">Следите за обновлениями в Telegram</p>
           </div>
-          <a href="#analytics" className="inline-flex w-fit items-center gap-2 border-b border-foreground pb-1 text-sm font-medium">
-            Перейти к ленте <ArrowUpRight className="size-3.5" />
+          <a href={SOCIAL_LINKS.telegram} target="_blank" rel="noopener noreferrer" aria-label="Telegram — открыть в новой вкладке" className="inline-flex w-fit items-center gap-2 border-b border-foreground pb-1 text-sm font-medium">
+            Открыть Telegram <ArrowUpRight className="size-3.5" />
           </a>
         </div>
       </section>

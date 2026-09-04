@@ -1,20 +1,31 @@
 import Image from 'next/image';
 
-// Non-interactive placeholders until the publisher supplies profile URLs.
+export const SOCIAL_LINKS = {
+  pulse: 'https://www.tbank.ru/invest/social/profile/davidabelmane/',
+  telegram: 'https://t.me/ngreport',
+  investing: 'https://ru.investing.com/members/283481865',
+} as const;
+
 export function SocialIcons() {
   return (
-    <div className="social-icons" role="group" aria-label="Социальные сети издания — ссылки будут добавлены позже">
-      <span className="social-icon social-icon-pulse" role="img" aria-label="Пульс" title="Пульс">
-        <Image src="/pulse-icon-source.jpg" alt="" width="1126" height="1012" />
-      </span>
-      <span className="social-icon" role="img" aria-label="Telegram" title="Telegram">
+    <div className="social-icons" role="group" aria-label="Социальные сети издания">
+      <a className="social-link" href={SOCIAL_LINKS.pulse} target="_blank" rel="noopener noreferrer" aria-label="Пульс — открыть в новой вкладке" title="Пульс">
+        <span className="social-icon social-icon-pulse" aria-hidden="true">
+          <Image src="/pulse-icon-source.jpg" alt="" width="1126" height="1012" />
+        </span>
+      </a>
+      <a className="social-link" href={SOCIAL_LINKS.telegram} target="_blank" rel="noopener noreferrer" aria-label="Telegram — открыть в новой вкладке" title="Telegram">
+        <span className="social-icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
         </svg>
-      </span>
-      <span className="social-icon social-icon-investing" role="img" aria-label="Investing.com" title="Investing.com">
-        <Image src="/investing-icon-source.jpg" alt="" width="512" height="512" />
-      </span>
+        </span>
+      </a>
+      <a className="social-link" href={SOCIAL_LINKS.investing} target="_blank" rel="noopener noreferrer" aria-label="Investing.com — открыть в новой вкладке" title="Investing.com">
+        <span className="social-icon social-icon-investing" aria-hidden="true">
+          <Image src="/investing-icon-source.jpg" alt="" width="512" height="512" />
+        </span>
+      </a>
     </div>
   );
 }

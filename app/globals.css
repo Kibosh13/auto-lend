@@ -139,10 +139,26 @@
   .social-icons {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 4px;
     padding-left: 24px;
     border-left: 1px solid var(--border);
     color: var(--muted-foreground);
+  }
+
+  .social-link {
+    display: inline-flex;
+    width: 32px;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+  }
+
+  .social-link:hover, .social-link:focus-visible { color: var(--foreground); }
+
+  .social-link:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
   }
 
   .social-icon {

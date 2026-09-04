@@ -27,7 +27,10 @@ button { font: inherit; }
 .brand-logo-crop:focus-visible { outline: 2px solid var(--muted); outline-offset: 4px; }
 .brand-logo-crop:focus-visible img { filter: grayscale(0); }
 .brand-lockup { display: flex; flex: none; align-items: center; gap: 24px; }
-.social-icons { display: flex; align-items: center; gap: 14px; padding-left: 24px; border-left: 1px solid var(--line); color: var(--muted); }
+.social-icons { display: flex; align-items: center; gap: 4px; padding-left: 24px; border-left: 1px solid var(--line); color: var(--muted); }
+.social-link { display: inline-flex; width: 32px; height: 32px; align-items: center; justify-content: center; border-radius: 4px; }
+.social-link:hover, .social-link:focus-visible { color: var(--ink); }
+.social-link:focus-visible { outline: 2px solid var(--muted); outline-offset: 2px; }
 .social-icon { display: inline-flex; width: 20px; height: 20px; align-items: center; justify-content: center; }
 .social-icon svg { width: 20px; height: 20px; }
 .social-icon-investing img { width: 20px; height: 20px; border-radius: 2px; }

@@ -4,4 +4,4 @@
 - Pulse: original image supplied by the client on 2026-09-04, displayed with a CSS crop; original image pixels are unchanged.
 - Investing.com: original image supplied by the client on 2026-09-04, displayed without changing its original pixels.
 
-Social icons are intentionally non-interactive until the publisher supplies the profile links.
+Social icons link to the publisher's Pulse, Telegram and Investing.com profiles supplied on 2026-09-04. Links open in a new tab with `noopener noreferrer`.
