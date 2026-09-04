@@ -26,6 +26,10 @@ button { font: inherit; }
 .brand-logo-crop img { position: absolute; top: -22px; left: -76px; width: 235px; max-width: none; height: auto; mix-blend-mode: multiply; filter: grayscale(1); transition: filter 220ms ease; }
 .brand-logo-crop:focus-visible { outline: 2px solid var(--muted); outline-offset: 4px; }
 .brand-logo-crop:focus-visible img { filter: grayscale(0); }
+.brand-lockup { display: flex; flex: none; align-items: center; gap: 24px; }
+.social-icons { display: flex; align-items: center; gap: 14px; padding-left: 24px; border-left: 1px solid var(--line); color: var(--muted); }
+.social-icon { display: inline-flex; width: 20px; height: 20px; align-items: center; justify-content: center; }
+.social-icon svg { width: 20px; height: 20px; }
 @media (hover: hover) {
   .brand-logo-crop:hover img { filter: grayscale(0); }
 }
@@ -35,7 +39,7 @@ nav a:hover, nav a:focus-visible { color: var(--ink); }
 .eyebrow { margin: 0; color: var(--muted); font: 10px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .16em; text-transform: uppercase; }
 .hero { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr); gap: 90px; padding-block: 78px; }
 h1, h2, h3 { margin: 0; font-family: Georgia, 'Times New Roman', serif; font-weight: 400; }
-h1 { max-width: 760px; margin-top: 22px; font-size: clamp(50px, 6vw, 88px); line-height: .94; letter-spacing: -.045em; }
+h1 { max-width: 760px; margin-top: 22px; font-size: clamp(36px, 5.1vw, 76px); line-height: 1.02; letter-spacing: -.04em; }
 .hero-copy { max-width: 590px; margin: 26px 0 0; color: var(--muted); font: 18px/1.75 Georgia, serif; }
 .latest { align-self: end; padding-top: 18px; border-top: 1px solid var(--ink); }
 .latest h2 { margin-top: 18px; font-size: 31px; line-height: 1.12; letter-spacing: -.02em; }
@@ -59,35 +63,41 @@ h1 { max-width: 760px; margin-top: 22px; font-size: clamp(50px, 6vw, 88px); line
 .approach { border-top: 1px solid var(--line); background: color-mix(in srgb, var(--surface), transparent 45%); }
 .approach-grid { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 80px; padding-block: 72px; }
 .muted { margin-top: 20px; color: var(--muted); font-size: 14px; line-height: 1.7; }
-.approach h2 { max-width: 650px; font-size: 48px; line-height: 1.02; letter-spacing: -.035em; }
+.approach-copy { max-width: 650px; margin: 0; color: var(--muted); font-size: 18px; line-height: 1.8; }
+.approach h2 { max-width: 650px; margin-top: 28px; font-size: 48px; line-height: 1.08; letter-spacing: -.035em; }
 .approach ol { margin: 34px 0 0; padding: 0; border-top: 1px solid var(--ink); list-style: none; }
 .approach li { display: grid; grid-template-columns: 48px 180px minmax(0, 1fr); gap: 20px; padding-block: 20px; border-bottom: 1px solid var(--line); font-size: 14px; }
 .approach li span { color: var(--muted); font: 9px ui-monospace, monospace; }
 .approach li p { margin: 0; color: var(--muted); line-height: 1.65; }
 .contacts { border-top: 1px solid var(--line); }
 .contacts-grid { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 80px; padding-block: 72px; }
-.contacts h2 { max-width: 650px; font-size: 40px; line-height: 1.08; letter-spacing: -.03em; }
-.contacts-copy a { display: inline-block; margin-top: 28px; padding-bottom: 4px; border-bottom: 1px solid var(--ink); font-size: 16px; }
+.contact-bio { max-width: 650px; margin: 0; font: 30px/1.4 Georgia, 'Times New Roman', serif; letter-spacing: -.02em; }
+.contact-email { margin: 28px 0 0; font-size: 16px; }
+.contacts-copy a { display: inline-block; padding-bottom: 4px; border-bottom: 1px solid var(--ink); }
 footer { border-top: 1px solid var(--line); }
-.footer-inner { display: flex; justify-content: space-between; align-items: end; gap: 40px; padding-block: 28px; color: var(--muted); font-size: 11px; }
-.footer-inner span { display: block; margin-top: 7px; }
-.footer-inner p { max-width: 580px; margin: 0; line-height: 1.6; text-align: right; }
+.footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px 32px; padding-block: 28px; color: var(--muted); font-size: 11px; }
+.footer-legal { max-width: 100%; margin: 0; line-height: 1.8; }
+@media (min-width: 1024px) {
+  .footer-legal { white-space: nowrap; }
+}
 
 @media (max-width: 760px) {
   .shell { width: min(100% - 40px, 1136px); }
   nav { display: none; }
+  .header-inner > .underlined-link { display: none; }
   .hero, .feed, .approach-grid, .contacts-grid { grid-template-columns: 1fr; gap: 48px; }
   .hero { padding-block: 56px; }
-  h1 { font-size: clamp(48px, 15vw, 68px); }
+  h1 { font-size: clamp(36px, 9.5vw, 48px); }
   .hero-copy { font-size: 17px; line-height: 1.65; }
   .feed, .approach-grid, .contacts-grid { padding-block: 58px; }
-  .feed-intro h2, .approach h2, .contacts h2 { font-size: 42px; }
+  .feed-intro h2, .approach h2 { font-size: 42px; }
+  .approach-copy { font-size: 16px; }
+  .contact-bio { font-size: 24px; }
   .post { grid-template-columns: 1fr; gap: 10px; }
   .post h3 { font-size: 29px; }
   .approach li { grid-template-columns: 34px 1fr; }
   .approach li p { grid-column: 2; }
   .footer-inner { align-items: start; flex-direction: column; }
-  .footer-inner p { text-align: left; }
 }
 
 @media (prefers-reduced-motion: reduce) {
