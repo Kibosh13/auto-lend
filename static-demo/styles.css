@@ -79,6 +79,7 @@ h1 { max-width: 760px; margin-top: 22px; font-size: clamp(36px, 5.1vw, 76px); li
 .contacts-grid { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 80px; padding-block: 72px; }
 .contact-bio { max-width: 650px; margin: 0; font: 30px/1.4 Georgia, 'Times New Roman', serif; letter-spacing: -.02em; }
 .contact-email { margin: 28px 0 0; font-size: 16px; }
+.contact-note { max-width: 650px; margin: 28px 0 0; color: var(--muted); font-size: 16px; line-height: 1.75; }
 .contacts-copy a { display: inline-block; padding-bottom: 4px; border-bottom: 1px solid var(--ink); }
 footer { border-top: 1px solid var(--line); }
 .footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px 32px; padding-block: 28px; color: var(--muted); font-size: 11px; }

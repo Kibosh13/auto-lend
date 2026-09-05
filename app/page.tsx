@@ -90,6 +90,9 @@ export default function Home() {
             <p className="mt-7 text-base">
               E-mail: <a className="inline-block border-b border-foreground pb-1" href="mailto:davidabelmane@gmail.com">davidabelmane@gmail.com</a>
             </p>
+            <p className="mt-7 max-w-2xl text-sm leading-7 text-muted-foreground md:text-base">
+              Вы также можете воспользоваться закрытым разделом нашего издания, ориентированного на более широкое освещение рынка американского природного газа и нефти. В основе его работы лежит экспертная оценка отраслевых событий, авторские аналитические инструменты и индикаторы, а также оперативное информирование о новостях и факторах, влияющих на ценообразование нашего бенчмарка.
+            </p>
           </div>
         </div>
       </section>
