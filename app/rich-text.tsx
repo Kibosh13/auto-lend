@@ -1,6 +1,6 @@
 import { Fragment, type ReactNode } from 'react';
 
-export type RichMark = { type: 'bold' | 'italic' | 'strike' | 'link'; attrs?: { href?: string } };
+export type RichMark = { type: 'bold' | 'italic' | 'underline' | 'strike' | 'link'; attrs?: { href?: string } };
 export type RichNode = { type: string; text?: string; attrs?: { level?: number }; marks?: RichMark[]; content?: RichNode[] };
 export type RichDocument = { type: 'doc'; content?: RichNode[] };
 
@@ -16,6 +16,7 @@ function markedText(node: RichNode, key: string): ReactNode {
     const markKey = `${key}-m${index}`;
     if (mark.type === 'bold') output = <strong key={markKey}>{output}</strong>;
     if (mark.type === 'italic') output = <em key={markKey}>{output}</em>;
+    if (mark.type === 'underline') output = <u key={markKey}>{output}</u>;
     if (mark.type === 'strike') output = <s key={markKey}>{output}</s>;
     if (mark.type === 'link') {
       const href = safeHref(mark.attrs?.href);

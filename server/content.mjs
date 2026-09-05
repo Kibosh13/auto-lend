@@ -3,7 +3,7 @@ const MAX_NODES = 5_000;
 const MAX_DEPTH = 14;
 const BLOCK_NODES = new Set(['doc', 'paragraph', 'heading', 'bulletList', 'orderedList', 'listItem', 'blockquote']);
 const LEAF_NODES = new Set(['text', 'hardBreak', 'horizontalRule']);
-const MARKS = new Set(['bold', 'italic', 'strike', 'link']);
+const MARKS = new Set(['bold', 'italic', 'underline', 'strike', 'link']);
 
 function safeLink(value) {
   if (typeof value !== 'string' || value.length > 2_000) return null;

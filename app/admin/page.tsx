@@ -9,7 +9,7 @@ import Placeholder from '@tiptap/extension-placeholder';
 import {
   Bold, FileText, Heading2, Heading3, Italic, Link2, List, ListOrdered, LoaderCircle,
   LogOut, Minus, Newspaper, Pilcrow, Plus, Quote, Redo2, RotateCcw, Save,
-  Strikethrough, Trash2, Undo2, Unlink,
+  Strikethrough, Trash2, Underline, Undo2, Unlink,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -93,7 +93,7 @@ function PostEditor({ post, csrf, onSaved, onTrash, onRestore }: {
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [
-      StarterKit.configure({ heading: { levels: [2, 3] }, link: { openOnClick: false, autolink: true, defaultProtocol: 'https' } }),
+      StarterKit.configure({ code: false, codeBlock: false, heading: { levels: [2, 3] }, link: { openOnClick: false, autolink: true, defaultProtocol: 'https' } }),
       Placeholder.configure({ placeholder: 'Начните писать обзор…' }),
     ],
     content: post.content || blankDocument(),
@@ -153,6 +153,7 @@ function PostEditor({ post, csrf, onSaved, onTrash, onRestore }: {
             <span className="editor-tool-separator" />
             <ToolButton label="Жирный" active={editor?.isActive('bold')} onClick={() => editor?.chain().focus().toggleBold().run()}><Bold /></ToolButton>
             <ToolButton label="Курсив" active={editor?.isActive('italic')} onClick={() => editor?.chain().focus().toggleItalic().run()}><Italic /></ToolButton>
+            <ToolButton label="Подчёркнутый" active={editor?.isActive('underline')} onClick={() => editor?.chain().focus().toggleUnderline().run()}><Underline /></ToolButton>
             <ToolButton label="Зачёркнутый" active={editor?.isActive('strike')} onClick={() => editor?.chain().focus().toggleStrike().run()}><Strikethrough /></ToolButton>
             <span className="editor-tool-separator" />
             <ToolButton label="Маркированный список" active={editor?.isActive('bulletList')} onClick={() => editor?.chain().focus().toggleBulletList().run()}><List /></ToolButton>
