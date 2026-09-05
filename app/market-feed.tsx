@@ -6,6 +6,7 @@ import { createContext, useContext, useCallback, useEffect, useState, type React
 import { ArrowDownRight, ArrowUpRight, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { RichText, type RichDocument } from './rich-text';
+import type { SiteContent } from '@/lib/site-content';
 
 type Media = { key: string; kind: string; name: string; mime: string; status: string; url: string | null };
 type Post = { id: string; title: string; text: string; content?: RichDocument; publishedAt: string; url: string | null; source?: 'telegram' | 'site'; media: Media[] };
@@ -55,16 +56,16 @@ export function FeedProvider({ children }: { children: ReactNode }) {
   return <FeedContext.Provider value={{ ...feed, status, refreshing, load }}>{children}</FeedContext.Provider>;
 }
 
-export function LatestReview() {
+export function LatestReview({ content }: { content: SiteContent }) {
   const { posts } = useFeed();
   const latest = posts[0];
   return <aside className="self-end border-t border-foreground pt-5">
-    <p className="eyebrow">{latest ? 'Свежий обзор' : 'В фокусе издания'}</p>
+    <p className="eyebrow">{latest ? content.latestNewLabel : content.latestEmptyLabel}</p>
     <h2 className="mt-5 font-serif text-2xl leading-[1.12] tracking-[-0.02em] md:text-3xl">
-      {latest?.title || 'Природный газ и Brent: факты, контекст и прогнозы'}
+      {latest?.title || content.latestFallbackTitle}
     </h2>
     <a href={latest ? `#${latest.id}` : '#analytics'} className="group mt-7 flex items-center justify-between border-t border-border py-4 text-sm font-medium">
-      {latest ? 'Перейти к обзору' : 'К публикациям'}
+      {latest ? content.latestOpenLabel : content.latestArchiveLabel}
       <ArrowDownRight className="size-4" />
     </a>
   </aside>;
@@ -86,21 +87,21 @@ function PostMedia({ media, postUrl }: { media: Media[]; postUrl: string | null 
   </div>;
 }
 
-export function MarketFeed() {
+export function MarketFeed({ content }: { content: SiteContent }) {
   const { posts, nextOffset, status, refreshing, load } = useFeed();
   return <section id="analytics" className="border-t border-border" aria-labelledby="feed-title">
     <div className="mx-auto max-w-[1200px] px-5 py-16 md:px-8 md:py-20">
       <div className="grid gap-12 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-20">
         <div>
-          <p className="eyebrow">Архив публикаций</p>
-          <h2 id="feed-title" className="mt-5 font-serif text-4xl leading-none tracking-[-0.035em] md:text-5xl">Последние обзоры</h2>
-          <p className="mt-5 text-sm leading-6 text-muted-foreground">Новые записи из канала NG / Re:port: текст, графики и медиа в одном месте.</p>
+          <p className="eyebrow">{content.archiveEyebrow}</p>
+          <h2 id="feed-title" className="mt-5 font-serif text-4xl leading-none tracking-[-0.035em] md:text-5xl">{content.archiveTitle}</h2>
+          <p className="mt-5 text-sm leading-6 text-muted-foreground">{content.archiveDescription}</p>
         </div>
         <div className="min-w-0">
           <div className="flex items-center justify-between border-b border-border pb-4">
-            <p className="text-xs text-muted-foreground">Публикации издания</p>
+            <p className="text-xs text-muted-foreground">{content.archiveListLabel}</p>
             <Button variant="ghost" size="sm" onClick={() => void load()} disabled={refreshing} className="rounded-none text-xs">
-              <RefreshCw className={`size-3 ${refreshing ? 'animate-spin' : ''}`} /> Обновить
+              <RefreshCw className={`size-3 ${refreshing ? 'animate-spin' : ''}`} /> {content.archiveRefreshLabel}
             </Button>
           </div>
           {status === 'error' && <output className="block py-5 text-sm text-muted-foreground">
@@ -117,7 +118,7 @@ export function MarketFeed() {
             {post.content ? <RichText document={post.content} /> : post.text && <p className="mt-4 whitespace-pre-wrap break-words text-sm leading-7 text-muted-foreground">{post.text}</p>}
             <PostMedia media={post.media} postUrl={post.url} />
             {post.url && <a href={post.url} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-1.5 text-xs underline decoration-border underline-offset-4">
-              Открыть в Telegram <ArrowUpRight className="size-3" />
+              {content.articleTelegramLabel} <ArrowUpRight className="size-3" />
             </a>}
           </article>)}
           {nextOffset !== null && <Button variant="outline" className="mt-6" disabled={refreshing} onClick={() => void load(true)}>Показать ещё</Button>}

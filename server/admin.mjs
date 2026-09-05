@@ -1,4 +1,7 @@
 import { createHmac, randomBytes, scryptSync, timingSafeEqual } from 'node:crypto';
+import { mkdir, writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
+import { decodeSiteAsset } from './site-assets.mjs';
 
 const COOKIE = 'ngreport_admin';
 const SESSION_SECONDS = 8 * 60 * 60;
@@ -15,12 +18,12 @@ function cookies(header = '') {
   return Object.fromEntries(header.split(';').map(value => value.trim().split(/=(.*)/s)).filter(parts => parts.length > 1));
 }
 
-async function readJson(req) {
+async function readJson(req, maxBytes = MAX_BODY_BYTES) {
   let size = 0;
   const chunks = [];
   for await (const chunk of req) {
     size += chunk.length;
-    if (size > MAX_BODY_BYTES) throw new Error('Запрос слишком большой');
+    if (size > maxBytes) throw new Error('Запрос слишком большой');
     chunks.push(chunk);
   }
   try { return JSON.parse(Buffer.concat(chunks).toString('utf8') || '{}'); }
@@ -33,6 +36,8 @@ export function createAdminApi(store, config = {}) {
   const passwordHash = config.passwordHash || process.env.ADMIN_PASSWORD_HASH;
   const sessionSecret = config.sessionSecret || process.env.ADMIN_SESSION_SECRET;
   const internalKey = config.internalKey || process.env.ADMIN_INTERNAL_KEY;
+  const assetDir = config.assetDir;
+  const publicOrigin = String(config.publicOrigin || process.env.PUBLIC_ORIGIN || 'https://ngreport.ru').replace(/\/$/, '');
   const now = config.now || (() => Math.floor(Date.now() / 1000));
   const failures = new Map();
 
@@ -119,6 +124,29 @@ export function createAdminApi(store, config = {}) {
       if (req.method === 'DELETE') { store.trash(body.id); json(res, 200, { ok: true }); return true; }
       if (req.method === 'PATCH' && body.action === 'restore') { store.restore(body.id); json(res, 200, { ok: true }); return true; }
       json(res, 405, { error: 'Метод не поддерживается' }); return true;
+    }
+    if (url.pathname === '/admin/settings') {
+      const session = verifySession(req);
+      if (!session) { json(res, 401, { error: 'Требуется вход' }); return true; }
+      if (req.method === 'GET') { json(res, 200, { settings: store.siteSettings() }); return true; }
+      if (req.method !== 'PUT') { json(res, 405, { error: 'Метод не поддерживается' }); return true; }
+      if (!authorizedMutation(req, session)) { json(res, 403, { error: 'Обновите страницу и повторите действие' }); return true; }
+      const settings = store.saveSiteSettings(await readJson(req));
+      json(res, 200, { ok: true, settings }); return true;
+    }
+    if (url.pathname === '/admin/assets') {
+      const session = verifySession(req);
+      if (!session) { json(res, 401, { error: 'Требуется вход' }); return true; }
+      if (req.method !== 'POST') { json(res, 405, { error: 'Метод не поддерживается' }); return true; }
+      if (!authorizedMutation(req, session)) { json(res, 403, { error: 'Обновите страницу и повторите действие' }); return true; }
+      if (!assetDir) throw new Error('Хранилище изображений недоступно');
+      const asset = decodeSiteAsset(await readJson(req, 6 * 1024 * 1024));
+      await mkdir(assetDir, { recursive: true, mode: 0o700 });
+      await writeFile(join(assetDir, asset.key), asset.bytes, { mode: 0o600, flag: 'wx' }).catch(error => {
+        if (error?.code !== 'EEXIST') throw error;
+      });
+      store.saveSiteAsset({ key: asset.key, kind: asset.kind, mime: asset.mime, size: asset.bytes.length });
+      json(res, 201, { ok: true, url: `${publicOrigin}/site-assets/${asset.key}` }); return true;
     }
     json(res, 404, { error: 'Не найдено' }); return true;
     } catch (error) {

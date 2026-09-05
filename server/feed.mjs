@@ -1,6 +1,7 @@
 import { DatabaseSync } from 'node:sqlite';
 import { createHash, randomUUID } from 'node:crypto';
 import { normalizePostInput, plainTextDocument, richDocumentText } from './content.mjs';
+import { normalizeSiteSettings } from './settings.mjs';
 
 export const MAX_FILE_BYTES = 20 * 1024 * 1024;
 export function normalize(message, channelId) {
@@ -41,9 +42,11 @@ export function openStore(filename, channelId, channelName, origin = 'https://ng
       post_id TEXT PRIMARY KEY, title TEXT NOT NULL, content TEXT NOT NULL,
       status TEXT NOT NULL DEFAULT 'published' CHECK(status IN ('published','trash')), updated_at INTEGER NOT NULL
     );
+    CREATE TABLE IF NOT EXISTS site_settings (key TEXT PRIMARY KEY, value TEXT NOT NULL, updated_at INTEGER NOT NULL);
+    CREATE TABLE IF NOT EXISTS site_assets (key TEXT PRIMARY KEY, kind TEXT NOT NULL, mime TEXT NOT NULL, size INTEGER NOT NULL, created_at INTEGER NOT NULL);
     CREATE INDEX IF NOT EXISTS idx_manual_posts_status_published ON manual_posts(status, published_at DESC);
     CREATE INDEX IF NOT EXISTS idx_post_overrides_status ON post_overrides(status);
-    PRAGMA user_version=2; PRAGMA optimize;`);
+    PRAGMA user_version=4; PRAGMA optimize;`);
   const get = (key) => db.prepare('SELECT value FROM state WHERE key=?').get(key)?.value;
   const set = (key, value) => db.prepare('INSERT INTO state VALUES (?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value').run(key, String(value));
   function ingest(update) {
@@ -154,5 +157,23 @@ export function openStore(filename, channelId, channelName, origin = 'https://ng
     const result = db.prepare("UPDATE post_overrides SET status='published',updated_at=? WHERE post_id=?").run(now, id);
     if (!result.changes) throw new Error('Публикация не найдена');
   }
-  return { db, get, set, ingest, feed, adminList, saveManual, saveTelegram, trash, restore, close: () => db.close() };
+  function siteSettings() {
+    const value = db.prepare("SELECT value FROM site_settings WHERE key='content'").get()?.value;
+    if (!value) return {};
+    try { return JSON.parse(value); } catch { return {}; }
+  }
+  function saveSiteSettings(input) {
+    const clean = normalizeSiteSettings(input);
+    db.prepare(`INSERT INTO site_settings (key,value,updated_at) VALUES ('content',?,?)
+      ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at`).run(JSON.stringify(clean), Math.floor(Date.now() / 1000));
+    return clean;
+  }
+  function saveSiteAsset({ key, kind, mime, size }) {
+    db.prepare(`INSERT INTO site_assets (key,kind,mime,size,created_at) VALUES (?,?,?,?,?)
+      ON CONFLICT(key) DO UPDATE SET kind=excluded.kind,mime=excluded.mime,size=excluded.size`).run(key, kind, mime, size, Math.floor(Date.now() / 1000));
+  }
+  function siteAsset(key) {
+    return db.prepare('SELECT key,kind,mime,size FROM site_assets WHERE key=?').get(key);
+  }
+  return { db, get, set, ingest, feed, adminList, saveManual, saveTelegram, trash, restore, siteSettings, saveSiteSettings, saveSiteAsset, siteAsset, close: () => db.close() };
 }

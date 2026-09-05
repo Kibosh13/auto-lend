@@ -12,6 +12,7 @@ Environment=HOST=127.0.0.1
 Environment=PORT=3100
 Environment=SITE_URL=https://ngreport.ru
 Environment=FEED_API_URL=http://127.0.0.1:3101/api/posts
+Environment=SITE_SETTINGS_API_URL=http://127.0.0.1:3101/api/settings
 Environment=ADMIN_API_URL=http://127.0.0.1:3101
 ExecStart=/usr/bin/node server.js
 Restart=always

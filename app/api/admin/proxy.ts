@@ -1,4 +1,4 @@
-export async function proxyAdmin(request: Request, resource: 'session' | 'posts') {
+export async function proxyAdmin(request: Request, resource: 'session' | 'posts' | 'settings' | 'assets') {
   const internalKey = process.env.ADMIN_INTERNAL_KEY;
   if (!internalKey) return Response.json({ error: 'Админ-панель доступна только на основном сайте' }, { status: 503 });
   try {

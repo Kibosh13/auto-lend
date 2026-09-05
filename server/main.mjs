@@ -9,10 +9,11 @@ import { createAdminApi } from './admin.mjs';
 const dataDir = resolve(process.env.DATA_DIR || './data');
 await mkdir(dataDir, { recursive: true, mode: 0o700 });
 const mediaDir = join(dataDir, 'media');
+const siteAssetDir = join(dataDir, 'site-assets');
 const channelId = process.env.TELEGRAM_CHANNEL_ID;
 if (!channelId || !process.env.TELEGRAM_BOT_TOKEN) throw new Error('Required server configuration missing');
 const store = openStore(join(dataDir, 'feed.sqlite'), channelId, process.env.TELEGRAM_CHANNEL || 'ngreport', process.env.PUBLIC_ORIGIN || 'https://ngreport.ru');
-const admin = createAdminApi(store);
+const admin = createAdminApi(store, { assetDir: siteAssetDir, publicOrigin: process.env.PUBLIC_ORIGIN });
 const abort = new AbortController();
 const server = createServer(async (req, res) => {
   try {
@@ -29,6 +30,20 @@ const server = createServer(async (req, res) => {
       if (!Number.isSafeInteger(offset) || offset < 0 || offset > 100000) { res.writeHead(400).end(); return; }
       res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
       res.end(req.method === 'HEAD' ? undefined : JSON.stringify(store.feed(offset))); return;
+    }
+    if (url.pathname === '/api/settings') {
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
+      res.end(req.method === 'HEAD' ? undefined : JSON.stringify({ settings: store.siteSettings() })); return;
+    }
+    const siteAssetKey = /^\/site-assets\/([a-f0-9]{64})$/.exec(url.pathname)?.[1];
+    if (siteAssetKey) {
+      const asset = store.siteAsset(siteAssetKey);
+      if (!asset) { res.writeHead(404).end(); return; }
+      const path = join(siteAssetDir, siteAssetKey);
+      const { size } = await stat(path);
+      res.writeHead(200, { 'Content-Type': asset.mime, 'Content-Length': size, 'Cache-Control': 'public, max-age=31536000, immutable', 'Content-Security-Policy': "default-src 'none'; sandbox" });
+      if (req.method === 'HEAD') res.end(); else createReadStream(path).pipe(res);
+      return;
     }
     const key = /^\/media\/([a-f0-9]{64})$/.exec(url.pathname)?.[1];
     const file = key && store.db.prepare("SELECT * FROM files WHERE key=? AND status='ready'").get(key);

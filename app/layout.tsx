@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
+import { loadSiteContent } from './site-content-server';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -12,33 +13,27 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(process.env.SITE_URL || 'https://ngreport.ru'),
-  alternates: { canonical: 'https://ngreport.ru/' },
-  title: {
-    default: 'NG / Re:port — аналитика для энерготрейдеров',
-    template: '%s — NG / Re:port',
-  },
-  icons: {
-    icon: [{ url: '/favicon.png', type: 'image/png', sizes: '192x192' }],
-    shortcut: '/favicon.png',
-    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
-  },
-  description: 'Ежедневные обзоры рынка, сигналы и сценарии из Telegram — в удобном редакционном формате.',
-  openGraph: {
-    type: 'website',
-    locale: 'ru_RU',
-    title: 'NG / Re:port — аналитика для энерготрейдеров',
-    description: 'Ежедневные обзоры рынка, сигналы и сценарии из Telegram — без информационного шума.',
-    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'NG / Re:port — аналитика для энерготрейдеров' }],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'NG / Re:port — аналитика для энерготрейдеров',
-    description: 'Ежедневные обзоры рынка, сигналы и сценарии из Telegram — без информационного шума.',
-    images: ['/og.png'],
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await loadSiteContent();
+  return {
+    metadataBase: new URL(process.env.SITE_URL || 'https://ngreport.ru'),
+    alternates: { canonical: 'https://ngreport.ru/' },
+    title: { default: content.seoTitle, template: '%s — NG / Re:port' },
+    icons: {
+      icon: [{ url: content.faviconUrl }],
+      shortcut: content.faviconUrl,
+      apple: [{ url: content.faviconUrl }],
+    },
+    description: content.seoDescription,
+    openGraph: {
+      type: 'website', locale: 'ru_RU', title: content.seoOgTitle, description: content.seoOgDescription,
+      images: [{ url: content.ogImageUrl, width: 1200, height: 630, alt: content.seoOgTitle }],
+    },
+    twitter: {
+      card: 'summary_large_image', title: content.seoOgTitle, description: content.seoOgDescription, images: [content.ogImageUrl],
+    },
+  };
+}
 
 export default function RootLayout({
   children,

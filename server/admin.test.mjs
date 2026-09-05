@@ -5,6 +5,7 @@ import { createServer } from 'node:http';
 import { openStore } from './feed.mjs';
 import { createAdminApi } from './admin.mjs';
 import { plainTextDocument, richDocumentText, validateRichDocument } from './content.mjs';
+import { normalizeSiteSettings, SITE_SETTING_KEYS } from './settings.mjs';
 
 const channel = '-1002151655824';
 const message = (id, text = 'Исходный заголовок\nИсходный текст') => ({
@@ -40,6 +41,24 @@ test('site drafts, publishing, Telegram edits, trash and restore are durable', (
     assert.equal(store.feed().posts.some(post => post.id === id), false);
     store.restore(id);
     assert.equal(store.feed().posts.some(post => post.id === id), true);
+  } finally { store.close(); }
+});
+
+test('site text and SEO settings are validated and saved', () => {
+  const store = openStore(':memory:', channel, 'ngreport');
+  const input = Object.fromEntries(SITE_SETTING_KEYS.map(key => [key, 'Текст']));
+  Object.assign(input, {
+    seoTitle: 'NG / Re:port — новый title', heroTitle: 'Новый заголовок',
+    contactsEmail: 'editor@example.com', contactsLinkUrl: 'https://t.me/example',
+    logoUrl: '/brand-logo-transparent.png', faviconUrl: '/favicon.png', ogImageUrl: 'https://ngreport.ru/og.png',
+  });
+  try {
+    const saved = store.saveSiteSettings(input);
+    assert.equal(saved.seoTitle, 'NG / Re:port — новый title');
+    assert.deepEqual(store.siteSettings(), saved);
+    assert.throws(() => normalizeSiteSettings({ ...input, unknown: 'field' }), /неизвестное/);
+    assert.throws(() => normalizeSiteSettings({ ...input, contactsLinkUrl: 'javascript:alert(1)' }), /ссылку/);
+    assert.throws(() => normalizeSiteSettings({ ...input, contactsEmail: 'not-an-email' }), /почты/);
   } finally { store.close(); }
 });
 

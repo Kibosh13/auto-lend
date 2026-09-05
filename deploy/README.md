@@ -40,6 +40,13 @@ with an allowlist of headings, paragraphs, lists, quotes, links and basic marks;
 arbitrary HTML and script URLs are rejected. Telegram originals and media remain
 unchanged when their website copy is edited.
 
+The protected “Тексты и SEO” screen stores validated site copy and metadata in
+SQLite. The public page and social/search metadata read the same settings, with
+the source defaults as a safe fallback while the settings service is unavailable.
+Logo, favicon and social preview images can be replaced from the same section.
+Uploads are restricted to PNG, JPG and WebP files up to 4 MiB and are stored in
+the persistent `site-assets` data directory.
+
 Limitations of the public Telegram Bot API:
 
 - No automatic channel-history import; it delivers new posts and edits after the
