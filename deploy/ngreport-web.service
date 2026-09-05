@@ -6,11 +6,13 @@ After=network.target ngreport-feed.service
 User=ngreport
 Group=ngreport
 WorkingDirectory=/opt/ngreport/current/web
+EnvironmentFile=/etc/ngreport-web.env
 Environment=NODE_ENV=production
 Environment=HOST=127.0.0.1
 Environment=PORT=3100
 Environment=SITE_URL=https://ngreport.ru
 Environment=FEED_API_URL=http://127.0.0.1:3101/api/posts
+Environment=ADMIN_API_URL=http://127.0.0.1:3101
 ExecStart=/usr/bin/node server.js
 Restart=always
 RestartSec=5

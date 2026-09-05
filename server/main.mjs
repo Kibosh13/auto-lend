@@ -4,6 +4,7 @@ import { mkdir, stat } from 'node:fs/promises';
 import { resolve, join } from 'node:path';
 import { openStore } from './feed.mjs';
 import { runBot } from './telegram.mjs';
+import { createAdminApi } from './admin.mjs';
 
 const dataDir = resolve(process.env.DATA_DIR || './data');
 await mkdir(dataDir, { recursive: true, mode: 0o700 });
@@ -11,12 +12,14 @@ const mediaDir = join(dataDir, 'media');
 const channelId = process.env.TELEGRAM_CHANNEL_ID;
 if (!channelId || !process.env.TELEGRAM_BOT_TOKEN) throw new Error('Required server configuration missing');
 const store = openStore(join(dataDir, 'feed.sqlite'), channelId, process.env.TELEGRAM_CHANNEL || 'ngreport', process.env.PUBLIC_ORIGIN || 'https://ngreport.ru');
+const admin = createAdminApi(store);
 const abort = new AbortController();
 const server = createServer(async (req, res) => {
   try {
     res.setHeader('X-Content-Type-Options', 'nosniff');
-    if (!['GET', 'HEAD'].includes(req.method)) { res.writeHead(405, { Allow: 'GET, HEAD' }).end(); return; }
     const url = new URL(req.url, 'http://localhost');
+    if (await admin.handle(req, res, url)) return;
+    if (!['GET', 'HEAD'].includes(req.method)) { res.writeHead(405, { Allow: 'GET, HEAD' }).end(); return; }
     if (url.pathname === '/health') {
       res.setHeader('Content-Type', 'application/json');
       res.end(JSON.stringify({ ok: true, lastPoll: store.get('last_poll') || null })); return;

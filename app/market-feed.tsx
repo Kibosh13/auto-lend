@@ -5,9 +5,10 @@
 import { createContext, useContext, useCallback, useEffect, useState, type ReactNode } from 'react';
 import { ArrowDownRight, ArrowUpRight, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { RichText, type RichDocument } from './rich-text';
 
 type Media = { key: string; kind: string; name: string; mime: string; status: string; url: string | null };
-type Post = { id: string; title: string; text: string; publishedAt: string; url: string; media: Media[] };
+type Post = { id: string; title: string; text: string; content?: RichDocument; publishedAt: string; url: string | null; source?: 'telegram' | 'site'; media: Media[] };
 type Feed = { posts: Post[]; nextOffset: number | null };
 type State = Feed & { status: 'loading' | 'ready' | 'error'; refreshing: boolean; load: (more?: boolean) => Promise<void> };
 const FeedContext = createContext<State | null>(null);
@@ -69,18 +70,18 @@ export function LatestReview() {
   </aside>;
 }
 
-function PostMedia({ media, postUrl }: { media: Media[]; postUrl: string }) {
+function PostMedia({ media, postUrl }: { media: Media[]; postUrl: string | null }) {
   if (!media.length) return null;
   return <div className="mt-5 grid min-w-0 gap-4">
     {media.map((file, index) => <div key={file.key} className="min-w-0">
-      {!file.url ? <a href={postUrl} target="_blank" rel="noopener noreferrer" className="text-sm underline underline-offset-4">
+      {!file.url && postUrl ? <a href={postUrl} target="_blank" rel="noopener noreferrer" className="text-sm underline underline-offset-4">
         {file.status === 'pending' ? 'Медиа загружается — открыть в Telegram' : 'Открыть вложение в Telegram'}
-      </a> : file.mime.startsWith('image/') ? <a href={file.url} target="_blank" rel="noopener noreferrer">
+      </a> : file.url && file.mime.startsWith('image/') ? <a href={file.url} target="_blank" rel="noopener noreferrer">
         {/* Telegram images have variable dimensions and are served from our media store. */}
         <img src={file.url} alt={file.name || `Иллюстрация к публикации, ${index + 1}`} loading="lazy" className="h-auto max-h-[600px] w-full object-contain object-left" />
-      </a> : file.mime.startsWith('video/') ? <video controls playsInline preload="metadata" className="max-h-[600px] w-full" src={file.url} aria-label={file.name || 'Видео к публикации'} />
-        : file.mime.startsWith('audio/') ? <audio controls preload="none" className="w-full" src={file.url} aria-label={file.name || 'Аудио к публикации'} />
-          : <a href={file.url} className="break-all text-sm underline underline-offset-4">Скачать {file.name || 'файл'}</a>}
+      </a> : file.url && file.mime.startsWith('video/') ? <video controls playsInline preload="metadata" className="max-h-[600px] w-full" src={file.url} aria-label={file.name || 'Видео к публикации'} />
+        : file.url && file.mime.startsWith('audio/') ? <audio controls preload="none" className="w-full" src={file.url} aria-label={file.name || 'Аудио к публикации'} />
+          : file.url ? <a href={file.url} className="break-all text-sm underline underline-offset-4">Скачать {file.name || 'файл'}</a> : null}
     </div>)}
   </div>;
 }
@@ -97,7 +98,7 @@ export function MarketFeed() {
         </div>
         <div className="min-w-0">
           <div className="flex items-center justify-between border-b border-border pb-4">
-            <p className="text-xs text-muted-foreground">Публикации из Telegram</p>
+            <p className="text-xs text-muted-foreground">Публикации издания</p>
             <Button variant="ghost" size="sm" onClick={() => void load()} disabled={refreshing} className="rounded-none text-xs">
               <RefreshCw className={`size-3 ${refreshing ? 'animate-spin' : ''}`} /> Обновить
             </Button>
@@ -113,11 +114,11 @@ export function MarketFeed() {
               {new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Moscow' }).format(new Date(post.publishedAt))} мск
             </time>
             <h3 className="mt-4 break-words font-serif text-[1.75rem] leading-[1.12] tracking-[-0.02em] md:text-[2rem]">{post.title}</h3>
-            {post.text && <p className="mt-4 whitespace-pre-wrap break-words text-sm leading-7 text-muted-foreground">{post.text}</p>}
+            {post.content ? <RichText document={post.content} /> : post.text && <p className="mt-4 whitespace-pre-wrap break-words text-sm leading-7 text-muted-foreground">{post.text}</p>}
             <PostMedia media={post.media} postUrl={post.url} />
-            <a href={post.url} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-1.5 text-xs underline decoration-border underline-offset-4">
+            {post.url && <a href={post.url} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-1.5 text-xs underline decoration-border underline-offset-4">
               Открыть в Telegram <ArrowUpRight className="size-3" />
-            </a>
+            </a>}
           </article>)}
           {nextOffset !== null && <Button variant="outline" className="mt-6" disabled={refreshing} onClick={() => void load(true)}>Показать ещё</Button>}
         </div>
