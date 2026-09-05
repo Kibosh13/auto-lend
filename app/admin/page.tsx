@@ -242,7 +242,7 @@ export default function AdminPage() {
       <div className="admin-header-inner"><div className="flex items-center gap-7"><Logo /><div className="hidden border-l border-border pl-7 sm:block"><p className="eyebrow">Панель управления</p><p className="mt-1 text-sm">Редакция</p></div></div>
         <nav className="admin-section-nav" aria-label="Разделы панели">
           <button type="button" className={section === 'posts' ? 'active' : ''} onClick={() => setSection('posts')}><Newspaper />Публикации</button>
-          <button type="button" className={section === 'settings' ? 'active' : ''} onClick={() => setSection('settings')}><Settings2 />Тексты и SEO</button>
+          <button type="button" className={section === 'settings' ? 'active' : ''} onClick={() => setSection('settings')}><Settings2 />Настройки</button>
         </nav>
         <div className="flex items-center gap-2"><NextLink href="/" className="admin-site-link">Открыть сайт</NextLink><Button variant="ghost" size="icon" aria-label="Выйти" title="Выйти" onClick={async () => { try { await api('/api/admin/session', { method: 'DELETE', headers: { 'X-CSRF-Token': csrf } }); } finally { setScreen('login'); setCsrf(''); } }}><LogOut /></Button></div>
       </div>
