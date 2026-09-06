@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { loadSiteContent } from './site-content-server';
+import { YandexMetrika } from './yandex-metrika';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -18,6 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: new URL(process.env.SITE_URL || 'https://ngreport.ru'),
     alternates: { canonical: 'https://ngreport.ru/' },
+    verification: { yandex: 'd1e8afbf6e7ef4c3' },
     title: { default: content.seoTitle, template: '%s — NG / Re:port' },
     icons: {
       icon: [{ url: content.faviconUrl }],
@@ -46,6 +48,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <YandexMetrika />
       </body>
     </html>
   );
