@@ -1,4 +1,5 @@
 const LIMITS = {
+  bodyFontSize: 2,
   logoUrl: 2000, faviconUrl: 2000, ogImageUrl: 2000,
   seoTitle: 200, seoDescription: 320, seoOgTitle: 200, seoOgDescription: 320,
   navReviews: 40, navApproach: 40, navContacts: 40,
@@ -21,10 +22,12 @@ export function normalizeSiteSettings(input) {
   if (unknown.length) throw new Error('Обнаружено неизвестное поле настроек');
   const clean = {};
   for (const [key, limit] of Object.entries(LIMITS)) {
-    const value = input[key];
+    // Existing saved settings and already-open admin tabs predate this option.
+    const value = key === 'bodyFontSize' && input[key] === undefined ? '16' : input[key];
     if (typeof value !== 'string' || value.length > limit) throw new Error(`Некорректное значение поля ${key}`);
     clean[key] = value.trim();
   }
+  if (!/^(1[6-9]|2[0-2])$/.test(clean.bodyFontSize)) throw new Error('Размер основного текста должен быть от 16 до 22 px');
   if (!clean.seoTitle || !clean.heroTitle) throw new Error('SEO-заголовок и заголовок первого экрана не могут быть пустыми');
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clean.contactsEmail)) throw new Error('Проверьте адрес электронной почты');
   for (const key of ['logoUrl', 'faviconUrl', 'ogImageUrl']) {

@@ -1,4 +1,5 @@
 export type SiteContent = {
+  bodyFontSize: string;
   logoUrl: string;
   faviconUrl: string;
   ogImageUrl: string;
@@ -47,6 +48,7 @@ export type SiteContent = {
 };
 
 export const DEFAULT_SITE_CONTENT: SiteContent = {
+  bodyFontSize: '16',
   logoUrl: '/brand-logo-transparent.png',
   faviconUrl: '/favicon.png',
   ogImageUrl: '/og.png',
@@ -100,5 +102,6 @@ export function mergeSiteContent(value: unknown): SiteContent {
   for (const key of Object.keys(result) as (keyof SiteContent)[]) {
     if (typeof (value as Record<string, unknown>)[key] === 'string') result[key] = (value as Record<string, string>)[key];
   }
+  if (!/^(1[6-9]|2[0-2])$/.test(result.bodyFontSize)) result.bodyFontSize = DEFAULT_SITE_CONTENT.bodyFontSize;
   return result;
 }

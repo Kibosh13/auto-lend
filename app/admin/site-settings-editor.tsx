@@ -7,12 +7,17 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import type { SiteContent } from '@/lib/site-content';
 
-type Field = { key: keyof SiteContent; label: string; multiline?: boolean; type?: 'text' | 'email' | 'url'; hint?: string };
+type Field = { key: keyof SiteContent; label: string; multiline?: boolean; type?: 'text' | 'email' | 'url'; hint?: string; options?: string[] };
 type ImageField = { key: 'logoUrl' | 'faviconUrl' | 'ogImageUrl'; kind: 'logo' | 'favicon' | 'social-preview'; label: string; hint: string };
 type SettingsGroup = { id: string; title: string; description: string; fields?: Field[]; imageFields?: ImageField[] };
 export const SETTINGS_GROUPS: SettingsGroup[] = [
+  {
+    id: 'typography', title: 'Размер текста', description: 'Единый размер текста всех обзоров и описаний сайта. Применяется к существующим и новым публикациям, в том числе из Telegram. Крупные заголовки, меню и подписи не меняются.',
+    fields: [{ key: 'bodyFontSize', label: 'Размер основного текста', options: ['16', '17', '18', '19', '20', '21', '22'], hint: '16 px — новый стандарт, на 2 px больше прежнего. Размер масштабируется вместе с настройками браузера.' }],
+  },
   {
     id: 'images', title: 'Изображения', description: 'Фирменные изображения сайта и карточки, которую видят при отправке ссылки.',
     imageFields: [
@@ -108,7 +113,7 @@ export function SiteSettingsEditor({ settings, onSave, onUpload }: { settings: S
   const [uploading, setUploading] = useState<ImageField['kind'] | null>(null);
   async function save() {
     setBusy(true); setMessage(''); setError('');
-    try { await onSave(values); setMessage('Тексты и SEO сохранены'); }
+    try { await onSave(values); setMessage('Настройки сохранены'); }
     catch (reason) { setError(reason instanceof Error ? reason.message : 'Не удалось сохранить настройки'); }
     finally { setBusy(false); }
   }
@@ -125,7 +130,7 @@ export function SiteSettingsEditor({ settings, onSave, onUpload }: { settings: S
   }
   return <section className="admin-settings-panel">
     <div className="admin-editor-heading">
-      <div><p className="eyebrow">Содержание сайта</p><h1 className="mt-3 font-serif text-3xl tracking-[-0.03em] md:text-4xl">Тексты и SEO</h1></div>
+      <div><p className="eyebrow">Содержание сайта</p><h1 className="mt-3 font-serif text-3xl tracking-[-0.03em] md:text-4xl">Настройки</h1></div>
       <span className="admin-status admin-status-published">Сайт</span>
     </div>
     <p className="mt-5 max-w-2xl text-sm leading-6 text-muted-foreground">Изменения становятся видны после сохранения и обновления страницы. Поля публикаций редактируются отдельно в разделе «Публикации».</p>
@@ -146,10 +151,17 @@ export function SiteSettingsEditor({ settings, onSave, onUpload }: { settings: S
         {group.fields && <div className="admin-settings-grid">
           {group.fields.map(field => <div key={field.key} className={field.multiline ? 'admin-setting-field admin-setting-wide' : 'admin-setting-field'}>
             <Label htmlFor={`setting-${field.key}`}>{field.label}</Label>
-            {field.multiline ? <Textarea id={`setting-${field.key}`} value={values[field.key]} onChange={event => setValues(current => ({ ...current, [field.key]: event.target.value }))} className="min-h-28 rounded-none bg-background p-3 leading-6" />
+            {field.options ? <Select value={values[field.key]} onValueChange={value => { if (value) setValues(current => ({ ...current, [field.key]: value })); }}>
+              <SelectTrigger id={`setting-${field.key}`} className="w-full rounded-none bg-background px-3 data-[size=default]:h-11"><SelectValue>{values[field.key]} px</SelectValue></SelectTrigger>
+              <SelectContent className="rounded-none">{field.options.map(value => <SelectItem key={value} value={value} className="rounded-none">{value} px</SelectItem>)}</SelectContent>
+            </Select> : field.multiline ? <Textarea id={`setting-${field.key}`} value={values[field.key]} onChange={event => setValues(current => ({ ...current, [field.key]: event.target.value }))} className="min-h-28 rounded-none bg-background p-3 leading-6" />
               : <Input id={`setting-${field.key}`} type={field.type || 'text'} value={values[field.key]} onChange={event => setValues(current => ({ ...current, [field.key]: event.target.value }))} className="h-11 rounded-none bg-background px-3" />}
             {field.hint && <small>{field.hint}</small>}
           </div>)}
+        </div>}
+        {group.id === 'typography' && <div className="mt-6 border border-border p-5">
+          <p className="mb-3 text-xs text-muted-foreground">Предпросмотр текста публикации</p>
+          <p style={{ fontSize: `${Number(values.bodyFontSize) / 16}rem`, lineHeight: 1.75 }}>Обзоры природного газа и нефти. Факты, контекст и прогнозы — без лишнего новостного шума.</p>
         </div>}
       </fieldset>)}
       <div className="admin-settings-actions">

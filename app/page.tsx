@@ -1,4 +1,5 @@
 import { ArrowUpRight } from 'lucide-react';
+import type { CSSProperties } from 'react';
 import { FeedProvider, LatestReview, MarketFeed } from './market-feed';
 import { SocialIcons, SOCIAL_LINKS } from './social-icons';
 import { loadSiteContent } from './site-content-server';
@@ -6,7 +7,7 @@ import { loadSiteContent } from './site-content-server';
 export default async function Home() {
   const content = await loadSiteContent();
   return (
-    <FeedProvider><main className="min-h-screen overflow-hidden bg-background text-foreground">
+    <FeedProvider><main className="min-h-screen overflow-hidden bg-background text-foreground" style={{ '--site-body-size': `${Number(content.bodyFontSize) / 16}rem` } as CSSProperties}>
       <header className="relative z-20 border-b border-border">
         <div className="mx-auto flex h-24 max-w-[1200px] items-center justify-between px-5 md:px-8">
           <div className="brand-lockup">
@@ -43,7 +44,7 @@ export default async function Home() {
             <h1 className="mt-6 max-w-3xl font-serif text-[clamp(2.25rem,5.1vw,4.75rem)] leading-[1.02] tracking-[-0.04em]">
               {content.heroTitle}
             </h1>
-            <p className="mt-7 max-w-xl text-base leading-7 text-muted-foreground md:text-lg md:leading-8">
+            <p className="site-copy site-copy-intro mt-7 max-w-xl text-muted-foreground">
               {content.heroDescription}
             </p>
           </div>
@@ -61,7 +62,7 @@ export default async function Home() {
               <p className="eyebrow">{content.approachEyebrow}</p>
             </div>
             <div>
-              <p className="max-w-2xl text-base leading-7 text-muted-foreground md:text-lg md:leading-8">
+              <p className="site-copy site-copy-intro max-w-2xl text-muted-foreground">
                 {content.approachDescription}
               </p>
               <h2 className="mt-7 max-w-2xl font-serif text-4xl leading-[1.08] tracking-[-0.035em] md:text-5xl">
@@ -76,7 +77,7 @@ export default async function Home() {
                   <article key={number} className="grid gap-3 border-b border-border py-5 sm:grid-cols-[48px_180px_minmax(0,1fr)] sm:gap-6">
                     <span className="font-mono text-[9px] text-muted-foreground">{number}</span>
                     <h3 className="text-sm font-medium">{title}</h3>
-                    <p className="max-w-lg text-sm leading-6 text-muted-foreground">{text}</p>
+                    <p className="site-copy max-w-lg text-muted-foreground">{text}</p>
                   </article>
                 ))}
               </div>
@@ -90,10 +91,10 @@ export default async function Home() {
           <p className="eyebrow">{content.contactsEyebrow}</p>
           <div>
             <p className="max-w-2xl font-serif text-2xl leading-[1.4] tracking-[-0.02em] md:text-3xl">{content.contactsBio}</p>
-            <p className="mt-7 text-base">
+            <p className="site-copy site-copy-email mt-7">
               {content.contactsEmailLabel} <a className="inline-block border-b border-foreground pb-1" href={`mailto:${content.contactsEmail}`}>{content.contactsEmail}</a>
             </p>
-            <p className="mt-7 max-w-2xl text-sm leading-7 text-muted-foreground md:text-base">
+            <p className="site-copy site-copy-contacts mt-7 max-w-2xl text-muted-foreground">
               {content.contactsIntro} <a href={content.contactsLinkUrl} target="_blank" rel="noopener noreferrer" className="text-foreground underline decoration-border underline-offset-4">{content.contactsLinkLabel}</a> {content.contactsOutro}
             </p>
           </div>

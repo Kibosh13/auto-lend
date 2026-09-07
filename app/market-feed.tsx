@@ -95,7 +95,7 @@ export function MarketFeed({ content }: { content: SiteContent }) {
         <div>
           <p className="eyebrow">{content.archiveEyebrow}</p>
           <h2 id="feed-title" className="mt-5 font-serif text-4xl leading-none tracking-[-0.035em] md:text-5xl">{content.archiveTitle}</h2>
-          <p className="mt-5 text-sm leading-6 text-muted-foreground">{content.archiveDescription}</p>
+          <p className="site-copy mt-5 text-muted-foreground">{content.archiveDescription}</p>
         </div>
         <div className="min-w-0">
           <div className="flex items-center justify-between border-b border-border pb-4">
@@ -115,7 +115,7 @@ export function MarketFeed({ content }: { content: SiteContent }) {
               {new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Moscow' }).format(new Date(post.publishedAt))} мск
             </time>
             <h3 className="mt-4 break-words font-serif text-[1.75rem] leading-[1.12] tracking-[-0.02em] md:text-[2rem]">{post.title}</h3>
-            {post.content ? <RichText document={post.content} /> : post.text && <p className="mt-4 whitespace-pre-wrap break-words text-sm leading-7 text-muted-foreground">{post.text}</p>}
+            {post.content ? <RichText document={post.content} /> : post.text && <p className="site-copy mt-4 whitespace-pre-wrap break-words text-muted-foreground">{post.text}</p>}
             <PostMedia media={post.media} postUrl={post.url} />
             {post.url && <a href={post.url} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-1.5 text-xs underline decoration-border underline-offset-4">
               {content.articleTelegramLabel} <ArrowUpRight className="size-3" />

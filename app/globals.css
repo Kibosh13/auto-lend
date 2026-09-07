@@ -228,9 +228,21 @@
     transform-origin: left;
   }
 
-  .article-rich-text {
-    @apply mt-4 break-words text-sm leading-7 text-muted-foreground;
+  .site-copy, .article-rich-text {
+    font-size: var(--site-body-size, 1rem);
+    line-height: 1.75;
   }
+
+  .site-copy-intro, .site-copy-email {
+    font-size: calc(var(--site-body-size, 1rem) + 0.125rem);
+  }
+
+  @media (min-width: 48rem) {
+    .site-copy-intro { font-size: calc(var(--site-body-size, 1rem) + 0.25rem); }
+    .site-copy-contacts { font-size: calc(var(--site-body-size, 1rem) + 0.125rem); }
+  }
+
+  .article-rich-text { @apply mt-4 break-words text-muted-foreground; }
 
   .article-rich-text > * + * { margin-top: 0.8rem; }
   .article-rich-text h4 { @apply mt-7 font-serif text-2xl leading-tight text-foreground; }
@@ -238,7 +250,10 @@
   .article-rich-text ul { @apply list-disc pl-6; }
   .article-rich-text ol { @apply list-decimal pl-6; }
   .article-rich-text li + li { margin-top: 0.35rem; }
-  .article-rich-text blockquote { @apply border-l-2 border-foreground pl-5 font-serif text-base text-foreground; }
+  .article-rich-text blockquote {
+    @apply border-l-2 border-foreground pl-5 font-serif text-foreground;
+    font-size: calc(var(--site-body-size, 1rem) + 0.125rem);
+  }
   .article-rich-text a { @apply text-foreground underline decoration-border underline-offset-4; }
   .article-rich-text hr { @apply my-7 border-border; }
 

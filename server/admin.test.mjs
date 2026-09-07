@@ -48,6 +48,7 @@ test('site text and SEO settings are validated and saved', () => {
   const store = openStore(':memory:', channel, 'ngreport');
   const input = Object.fromEntries(SITE_SETTING_KEYS.map(key => [key, 'Текст']));
   Object.assign(input, {
+    bodyFontSize: '18',
     seoTitle: 'NG / Re:port — новый title', heroTitle: 'Новый заголовок',
     contactsEmail: 'editor@example.com', contactsLinkUrl: 'https://t.me/example',
     logoUrl: '/brand-logo-transparent.png', faviconUrl: '/favicon.png', ogImageUrl: 'https://ngreport.ru/og.png',
@@ -56,6 +57,17 @@ test('site text and SEO settings are validated and saved', () => {
     const saved = store.saveSiteSettings(input);
     assert.equal(saved.seoTitle, 'NG / Re:port — новый title');
     assert.deepEqual(store.siteSettings(), saved);
+    assert.equal(saved.bodyFontSize, '18');
+    const { bodyFontSize: _legacyFontSize, ...legacySettings } = input;
+    assert.equal(normalizeSiteSettings(legacySettings).bodyFontSize, '16');
+    for (const invalid of ['14', '15', '23', '18px', '18.5', '', null, 18]) {
+      assert.throws(() => normalizeSiteSettings({ ...input, bodyFontSize: invalid }), /размер|Размер|bodyFontSize/);
+    }
+    for (const bodyFontSize of ['16', '17', '18', '19', '20', '21', '22']) {
+      store.saveSiteSettings({ ...input, bodyFontSize });
+      assert.equal(store.siteSettings().bodyFontSize, bodyFontSize);
+      assert.equal(store.siteSettings().heroTitle, input.heroTitle);
+    }
     assert.throws(() => normalizeSiteSettings({ ...input, unknown: 'field' }), /неизвестное/);
     assert.throws(() => normalizeSiteSettings({ ...input, contactsLinkUrl: 'javascript:alert(1)' }), /ссылку/);
     assert.throws(() => normalizeSiteSettings({ ...input, contactsEmail: 'not-an-email' }), /почты/);
